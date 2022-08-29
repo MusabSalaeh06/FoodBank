@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DonateResource;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductSelectTypeResource;
@@ -19,7 +20,8 @@ class ProductController extends Controller
     
     public function products()
     {
-        $products = Product::query()->with(['types'])->get();
+        //$product = product::where('status',null)->get();
+        $products = Product::query()->with(['types'])->where('status',null)->get();
         return response()->json(
             [
                'products' =>  ProductResource::collection($products)
@@ -35,20 +37,104 @@ class ProductController extends Controller
                 'product_types' =>  ProductTypeResource::collection($product_types)
              ], 200);
     }
+
     public function product_type_detail($product_type_id)
     {
-        $product_type_detail = Product_type::find($product_type_id)->get();
-        return response()->json(
-             [
-                'product_type_detail' =>  ProductTypeDetailResource::collection($product_type_detail)
-             ], 200);
+        $data = Product_type::find($product_type_id);
+        if (empty($data)) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "ไม่พบข้อมูล product_type_id : {$product_type_id} นี้ "
+                ],200
+                );
+        } 
+        date_default_timezone_set("Asia/Bangkok");
+        if (empty($data->description)) {
+            return response()->json(
+                 [
+                    'product_type_id' => (int)$data->product_type_id,
+                    'name' => $data->name,
+                    'image' => asset('/storage/product_type/product_type_image_assets/'.$data->image),
+                    'description' => "ไม่มีคำอธิบาย",
+                    'date_update' => date($data->updated_at)
+                 ], 200);
+        } else {
+            return response()->json(
+                 [
+                    'product_type_id' => (int)$data->product_type_id,
+                    'name' => $data->name,
+                    'image' => asset('/storage/product_type/product_type_image_assets/'.$data->image),
+                    'description' => $data->description,
+                    'date_update' => date($data->updated_at)
+                 ], 200);
+        }
+        
     }
     public function product_select_type($product_type_id)
     {
         $product_select_type = product::query()->with(['types'])->where('type',$product_type_id)->get();
         return response()->json(
              [
-                'product_type_detail' =>  ProductSelectTypeResource::collection($product_select_type)
+                'product_select_type' =>  ProductSelectTypeResource::collection($product_select_type)
+             ], 200);
+    }
+
+    public function mission_all()
+    {
+        $mission_all = Donate::where('sender',"5")->get();
+        return response()->json(
+             [
+                'mission_all' => DonateResource::collection($mission_all),
+             ], 200);
+    }
+    public function new_mission()
+    {
+        $new_mission = Donate::where('sender',"5")->where('status', "รอการตอบรับ")->get();;
+        return response()->json(
+             [
+                'new_mission' => DonateResource::collection($new_mission),
+             ], 200);
+    }
+        public function mission_cancle()
+    {
+        $mission_cancle = Donate::where('sender', "5")->where('status', "ยกเลิกภารกิจ")->get();
+        return response()->json(
+             [
+                'mission_cancle' => DonateResource::collection($mission_cancle)
+             ], 200);
+    }
+        public function mission_submit()
+    {
+        $mission_submit = Donate::where('sender',"5")->where('status', "ตอบรับ")->get();
+        return response()->json(
+             [
+                'mission_submit' => DonateResource::collection($mission_submit),
+             ], 200);
+    }
+        public function mission_reject()
+    {
+        $mission_reject = Donate::where('sender',"5")->where('status', "ปฏิเสธ")->get();
+        return response()->json(
+             [
+                'mission_reject' => DonateResource::collection($mission_reject),
+             ], 200);
+    }
+        public function mission_fail()
+    {
+        $mission_fail = Donate::where('sender',"5")->where('status',"ส่งคืนสินค้า")->get();
+        return response()->json(
+             [
+                'mission_fail' => DonateResource::collection($mission_fail),
+             ], 200);
+    }
+        public function mission_complete()
+    {
+        $mission_complete = Donate::where('sender',"5")->where('status',"ส่งสำเร็จ")->get();
+        return response()->json(
+             [
+                'mission_complete' => DonateResource::collection($mission_complete),
              ], 200);
     }
 

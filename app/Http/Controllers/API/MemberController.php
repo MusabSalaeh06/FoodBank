@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BasketResource;
 use App\Models\Basket;
 use App\Models\Donate;
 use App\Models\member;
@@ -14,27 +15,26 @@ use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
-    public function Dashboard()
+    public function report_sender()
     {
-        $giver = member::where('type','giver')->get()->count();
-        $reciever = Member::where('type','reciever')->get()->count();
-        $sender = Member::where('type','sender')->get()->count();
-        $product = Product::get()->count();
-        $product_type = Product_type::get()->count();
-        $donate = Donate::get()->count();
-
-        return response()->json(
+        $new_mission = Donate::where('sender',"5")->where('status', "รอการตอบรับ")->get()->count();
+        $mission_cancle = Donate::where('sender', "5")->where('status', "ยกเลิกภารกิจ")->get()->count();
+        $mission_submit = Donate::where('sender',"5")->where('status', "ตอบรับ")->get()->count();
+        $mission_reject = Donate::where('sender',"5")->where('status', "ปฏิเสธ")->get()->count();
+        $mission_complete = Donate::where('sender',"5")->where('status', "ส่งสำเร็จ")->get()->count();
+        $mission_fail = Donate::where('sender',"5")->where('status',"ส่งคืนสินค้า")->get()->count();
+        $mission_all = Donate::where('sender',"5")->get()->count();
+       
+               return response()->json(
             [
-                'status' => 'success',
-                'giver' => $giver,
-                'reciever' => $reciever,
-                'sender' => $sender,
-                'product' => $product,
-                'product_type' => $product_type,
-                'donate' => $donate,
+                'new_mission' => $new_mission,
+                'mission_cancle' => $mission_cancle,
+                'mission_submit' => $mission_submit,
+                'mission_reject' => $mission_reject,
+                'mission_complete' => $mission_complete,
+                'mission_fail' => $mission_fail,
+                'mission_all' => $mission_all,
             ], 200);
-
-        // return view('Dashboard',compact(['giver','reciever','sender','product','product_type','donate']));
     }
     public function mission_update(Request $request, $id)
     {
@@ -120,6 +120,35 @@ class MemberController extends Controller
             );
         
     }
+     public function mission_detail($id)
+    {
+        $mission = Donate::find($id);
+        if (empty($mission)) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "ไม่พบข้อมูล id : {$id} นี้ "
+                ],200
+                );
+        } 
+        return response()->json(
+            [
+                 'id' => (int)$mission->id,
+                 'reciever' => $mission->recievers->name." ".$mission->recievers->surname,
+                 'sender' => $mission->senders->name." ".$mission->senders->surname,
+                 'admin' => $mission->admins->name." ".$mission->admins->surname
+            ], 200);
+       
+    }
+  public function mission_basket_detail($id)
+     {
+         $basket = basket::where('donate_id',$id)->get();
+          return response()->json(
+             [
+               'basket' =>  BasketResource::collection($basket)
+           ], 200);
+     }
 
     public function giver_show()
     {
@@ -133,6 +162,7 @@ class MemberController extends Controller
 
         // return view('Giver',compact(['giver']));
     }
+    
     public function reciever_show()
     {
         $reciever = Member::where('type','reciever')->get();

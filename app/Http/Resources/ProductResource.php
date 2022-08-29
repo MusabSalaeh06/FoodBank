@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
                 'name' => $this->name,
                 'type' => $this->types->name,
                 'description' => "ยังไม่มีคำอธิบาย",
-                'quantity' => (int)$this->quantity,
+                'quantity' => (int)$this->quantity." ".$this->unit,
                 'product_image' => asset('/storage/product/product_image_assets/'.$this->product_image),
             ];
         } else {
@@ -29,7 +29,7 @@ class ProductResource extends JsonResource
                 'product_id' => $this->product_id,
                 'name' => $this->name,
                 'type' => $this->types->name,
-                'quantity' => (int)$this->quantity,
+                'quantity' => (int)$this->quantity." ".$this->unit,
                 'product_image' => asset('/storage/product/product_image_assets/'.$this->product_image),
             ];
         }

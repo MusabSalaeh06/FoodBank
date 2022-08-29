@@ -14,15 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/report_sender', [App\Http\Controllers\API\MemberController::class, 'report_sender'])->name('Report.Sender');
+
+Route::get('/mission_all', [App\Http\Controllers\API\ProductController::class, 'mission_all'])->name('mission.all');
+Route::get('/new_mission', [App\Http\Controllers\API\ProductController::class, 'new_mission'])->name('new.mission');
+Route::get('/mission_cancle', [App\Http\Controllers\API\ProductController::class, 'mission_cancle'])->name('mission.cancle');
+Route::get('/mission_submit', [App\Http\Controllers\API\ProductController::class, 'mission_submit'])->name('mission.submit');
+Route::get('/mission_reject', [App\Http\Controllers\API\ProductController::class, 'mission_reject'])->name('mission.reject');
+Route::get('/mission_fail', [App\Http\Controllers\API\ProductController::class, 'mission_fail'])->name('mission.fail');
+Route::get('/mission_complete', [App\Http\Controllers\API\ProductController::class, 'mission_complete'])->name('mission.complete');
+
 Route::post('/mission/update/{id}', [App\Http\Controllers\API\MemberController::class, 'mission_update'])->name('mission.update');
+
+Route::get('/mission/detail/{id}', [App\Http\Controllers\API\MemberController::class, 'mission_detail'])->name('mission.detail');
+Route::get('/mission/basket/detail/{id}', [App\Http\Controllers\API\MemberController::class, 'mission_basket_detail'])->name('mission.basket.detail');
 
 Route::get('/products', [App\Http\Controllers\API\ProductController::class, 'products'])->name('products');
 Route::get('/product-types', [App\Http\Controllers\API\ProductController::class, 'product_types'])->name('product.types');
 Route::get('/product-type-detail/{product_type_id}', [App\Http\Controllers\API\ProductController::class, 'product_type_detail'])->name('product.type.detail');
 Route::get('/product-select-type/{product_type_id}', [App\Http\Controllers\API\ProductController::class, 'product_select_type'])->name('product.select.type');
-
-Route::get('/', [App\Http\Controllers\API\MemberController::class, 'Dashboard'])->name('Dashboard');
-
 
 Route::get('/giver/show', [App\Http\Controllers\API\MemberController::class, 'giver_show'])->name('giver.show');
 Route::get('/reciever/show', [App\Http\Controllers\API\MemberController::class, 'reciever_show'])->name('reciever.show');

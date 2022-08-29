@@ -18,7 +18,8 @@ class DonateResource extends JsonResource
             return [
                 'id' => $this->id,
                 'date_update' => date($this->updated_at),
-                'giver' => $this->giver,
+                'reciever' => $this->recievers->name." ".$this->recievers->surname,
+                'status' => $this->status,
             ];
     }
 }
