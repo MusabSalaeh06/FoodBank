@@ -16,6 +16,6 @@ class member extends Authenticatable
     protected $primaryKey = 'member_id';
     protected $keyType = 'string';
     protected $table = 'members';
-    protected $filllable = ['email','password','member_id','name','surname','tel','type','county',
+    protected $filllable = ['email','password','member_id','profile','name','surname','tel','type','county',
     'road','alley','house_number','group_no','sub_district','district','province','ZIP_code','status']; 
 }

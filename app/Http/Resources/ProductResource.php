@@ -29,6 +29,7 @@ class ProductResource extends JsonResource
                 'product_id' => $this->product_id,
                 'name' => $this->name,
                 'type' => $this->types->name,
+                'description' => $this->description,
                 'quantity' => (int)$this->quantity." ".$this->unit,
                 'product_image' => asset('/storage/product/product_image_assets/'.$this->product_image),
             ];

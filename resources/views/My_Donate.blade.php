@@ -1,7 +1,6 @@
 @extends('layouts.default')
 
 @section('content')
-
 <div
     class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
     <div class="flex items-center">
@@ -13,24 +12,28 @@
         เพิ่มข้อมูล
     </label>
     <input type="checkbox" id="add-product" class="modal-toggle" />
-    <div class="modal">
-        <div class="modal-box">
-            <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
-                <div class="max-w-md w-full space-y-8">
-                    <div>
-                        <img class="mx-auto h-12 w-auto"
-                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
-                        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">เพิ่มข้อมูลสินค้า</h2>
+    <div class="modal"> 
+        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">
+                    <div class="bg-indigo-500 rounded-sm text-white p-3 text-3xl ">
+                        เพิ่มข้อมูลสินค้า
                     </div>
+            <div class="w-full p-5">
                     <form class="mt-8 space-y-6" action="{{ route('prod.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="rounded-md shadow-sm -space-y-px">
+                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                             <div>
-                                <input name="name" type="text" required
+                                <div class="text-2xl text-gray-700 m-1">ชื่อสินค้า :</div>
+                                <input name="name" type="text" autocomplete="current-password" required
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
-                                    placeholder="ชื่อสินค้า">
+                                    placeholder="...">
                             </div>
                             <div>
+                                <div class="text-2xl text-gray-700 m-1">คำอธิบาย :</div>
+                                <textarea name="description" cols="30" rows="3" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                placeholder="..." ></textarea>
+                            </div>
+                            <div>
+                                <div class="text-2xl text-gray-700 m-1">เลือกประเภทสินค้า :</div>
                                 <select name="type" type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected="">เลือกประเภทสินค้า</option>
@@ -40,11 +43,19 @@
                                 </select>
                             </div>
                             <div>
+                                <div class="text-2xl text-gray-700 m-1">ปริมาณ :</div>
                                 <input name="quantity" type="text" autocomplete="current-password" required
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
-                                    placeholder="ปริมาณ">
+                                    placeholder="...">
                             </div>
                             <div>
+                                <div class="text-2xl text-gray-700 m-1">หน่วย :</div>
+                                <input name="unit" type="text" autocomplete="current-password" required
+                                    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                    placeholder="...">
+                            </div>
+                            <div>
+                                <div class="text-2xl text-gray-700 m-1">รูปสินค้า :</div>
                                 <input name="product_image" type="file"
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl">
                             </div>
@@ -61,18 +72,17 @@
                                 </span>
                                 บันทึก
                             </button>
+
+                            <div class="modal-action mt-3">
+                                <label for="add-product"
+                                    class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
+                            </div>
+
                         </div>
                     </form>
                 </div>
             </div>
-
-            <div class="modal-action">
-                <label for="add-product"
-                    class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
-            </div>
-
         </div>
-    </div>
 </div>
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
@@ -142,31 +152,32 @@
                             for="edit-product-{{$rows->product_id}}">แก้ไข</label></a>
                     <input type="checkbox" id="edit-product-{{$rows->product_id}}" class="modal-toggle" />
                     <div class="modal">
-                        <div class="modal-box">
-                            <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
-                                <div class="max-w-md w-full space-y-8">
-                                    <div>
-                                        <img class="mx-auto h-12 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                            alt="Workflow">
-                                        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                                            แก้ไขข้อมูลสินค้า</h2>
-                                    </div>
-                                    <form action="{{ route('prod.update',$rows->product_id)}}" method="POST"
+                        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">         
+                            <div class="bg-indigo-500 rounded-sm font-bold text-white text-left p-3 text-3xl ">
+                                แก้ไขข้อมูลสินค้าที่ฉันบริจาค
+                            </div>
+                            <div class="w-full p-5">
+                                    <form class="mt-8 space-y-6" action="{{ route('prod.update',$rows->product_id)}}" method="POST"
                                         enctype="multipart/form-data">
                                         {{ csrf_field()}}
                                         {{ method_field('PUT') }}
                                         @csrf
-                                        <div class="rounded-md shadow-sm -space-y-px">
+                                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                                             <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ชื่อสินค้า :</div>
                                                 <input name="name" type="text" autocomplete="current-password" required
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->name}}">
                                             </div>
                                             <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">คำอธิบาย :</div>
+                                                <textarea name="description" cols="30" rows="3" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                                >{{$rows->description}}</textarea>
+                                            </div>
+                                            <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ประเภทสินค้า :</div>
                                                 <select name="type" type="text"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    <option value="{{$rows->type}}">{{$rows->types->name}}</option> 
                                                     @foreach ($type as $i=>$types)
                                                     <option value="{{$types->product_type_id}}">{{$types->name}}
                                                     </option>
@@ -174,12 +185,20 @@
                                                 </select>
                                             </div>
                                             <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ปริมาณ :</div>
                                                 <input name="quantity" type="text" autocomplete="current-password"
                                                     required
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->quantity}}">
                                             </div>
                                             <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">หน่วย :</div>
+                                                <input name="unit" type="text" autocomplete="current-password" required
+                                                    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                                    value="{{$rows->unit}}">
+                                            </div>
+                                            <div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">รูปสินค้า :</div>
                                                 <input name="product_image" type="file"
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl">
                                             </div>
@@ -196,17 +215,16 @@
                                                 </span>
                                                 อัพเดท
                                             </button>
+
+                                        <div class="modal-action mt-3">
+                                            <label for="edit-product-{{$rows->product_id}}"
+                                                class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
+                                        </div>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-
-                            <div class="modal-action">
-                                <label for="edit-product-{{$rows->product_id}}"
-                                    class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
-                            </div>
 
                         </div>
+                    </div>
                     </div>
                 </td>
                 <td class="py-4 px-6 text-right">

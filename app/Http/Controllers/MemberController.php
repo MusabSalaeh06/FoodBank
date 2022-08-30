@@ -23,13 +23,15 @@ class MemberController extends Controller
         $product = product::get()->count();
         $product_type = Product_type::get()->count();
         $donate = Donate::get()->count();
-        $mission = Donate::where('sender', Auth::user()->member_id)->where('status', "รอการตอบรับ")->get()->count();
-        $mission_complete = Donate::where('sender', Auth::user()->member_id)->where('status', "ส่งสำเร็จ")->get()->count();
-        $mission_fail = Donate::where('sender', Auth::user()->member_id)->where('status', "หมดเวลา")->get()->count();
-        $mission_cancle = Donate::where('sender', Auth::user()->member_id)->where('status', "ปฏิเสธ")->get()->count();
+        $mission = Donate::where('sender',Auth::user()->member_id)->where('status', "รอการตอบรับ")->get()->count();
+        $mission_cancle = Donate::where('sender',Auth::user()->member_id)->where('status', "ยกเลิกภารกิจ")->get()->count();
+        $mission_submit = Donate::where('sender',Auth::user()->member_id)->where('status', "ตอบรับ")->get()->count();
+        $mission_reject = Donate::where('sender',Auth::user()->member_id)->where('status', "ปฏิเสธ")->get()->count();
+        $mission_complete = Donate::where('sender',Auth::user()->member_id)->where('status', "ส่งสำเร็จ")->get()->count();
+        $mission_fail = Donate::where('sender',Auth::user()->member_id)->where('status',"ส่งคืนสินค้า")->get()->count();
         $my_donate = Product::where('giver', Auth::user()->member_id)->get()->where('admin', null)->count();
         return view('Dashboard', compact(['giver', 'reciever', 'sender', 'product', 'product_type', 'donate',
-         'mission', 'mission_complete', 'mission_fail', 'mission_cancle', 'my_donate']));
+         'mission', 'mission_complete', 'mission_fail', 'mission_cancle', 'mission_reject', 'mission_submit', 'my_donate']));
     }
 
     public function my_donate()
