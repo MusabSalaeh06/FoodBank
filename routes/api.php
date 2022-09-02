@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('/login', [App\Http\Controllers\API\LoginController::class, 'login']);
+Route::get('/logout', [App\Http\Controllers\API\LoginController::class, 'logout']);
+
 Route::post('/update-profile/{member_id}', [App\Http\Controllers\API\MemberController::class, 'update_profile'])->name('update.profile');
 Route::post('/update-password/{member_id}', [App\Http\Controllers\API\MemberController::class, 'update_password'])->name('update.password');
 
