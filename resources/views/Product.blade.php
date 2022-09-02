@@ -27,13 +27,14 @@
 @endif
 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
+    shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
     <div class="flex items-center">
         <span>จัดการข้อมูลสินค้า</span>
     </div>
     <label
         class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button" for="add-product">
+        type="button" for="add-product" style="background-color: #2A9D8F">
         เพิ่มข้อมูล
     </label>
     <input type="checkbox" id="add-product" class="modal-toggle" />
@@ -46,15 +47,18 @@
                     <form class="mt-8 space-y-6" action="{{ route('prod.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
-                            <div>
-                                <div class="text-2xl text-gray-700 m-1">เลือกรายชื่อผู้บริจาค :</div>
-                                <select name="giver" type="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <div>
+                            <div class="text-2xl text-gray-700 m-1">เลือกรายชื่อผู้บริจาค :</div>
+                            <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            <select class="w-full js-example-basic-single" id="Reciever" name="giver">
                                     <option selected="">เลือกรายชื่อผู้บริจาค</option>
-                                    @foreach ($giver as $i=>$rows)
-                                    <option value="{{$rows->member_id}}">{{$rows->name}} {{$rows->surname}}</option>
+                                    @foreach ($giver as $i=>$givers)
+                                    <option value="{{$givers->member_id}}">{{$givers->name}} {{$givers->surname}}</option>
                                     @endforeach
                                 </select>
+                            </div>
                             </div>
                             <div>
                                 <div class="text-2xl text-gray-700 m-1">ชื่อสินค้า :</div>
@@ -68,18 +72,18 @@
                                 placeholder="..." ></textarea>
                             </div>
                             <div>
-                                <div class="text-2xl text-gray-700 m-1">เลือกประเภทสินค้า :</div>
-                                <select name="type" type="text"
+                            <div class="text-2xl text-gray-700 m-1">เลือกประเภทสินค้า :</div>
+                            <select name="type" type="text" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected="">เลือกประเภทสินค้า</option>
-                                    @foreach ($type as $i=>$rows)
-                                    <option value="{{$rows->product_type_id}}">{{$rows->name}}</option>
+                                    <option selected>เลือกประเภทสินค้า</option>
+                                    @foreach ($type as $i=>$types)
+                                    <option value="{{$types->product_type_id}}">{{$types->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div>
                                 <div class="text-2xl text-gray-700 m-1">ปริมาณ :</div>
-                                <input name="quantity" type="text" autocomplete="current-password" required
+                                <input name="amount" type="text" autocomplete="current-password" required
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     placeholder="...">
                             </div>
@@ -119,9 +123,11 @@
             </div>
         </div>
 </div>
+@if ($co_product == null)
+@else
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     ลำดับ
@@ -136,9 +142,10 @@
                     ชื่อสินค้า
                 </th>
                 <th scope="col" class="py-3 px-6">
-                    คำอธิบาย
-                <th scope="col" class="py-3 px-6">
                     ประเภทสินค้า
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    สถานะ
                 </th>
                 <th scope="col" class="py-3 px-6">
                  ปริมาณ
@@ -183,16 +190,22 @@
                     {{$rows->name}}
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->description}}
-                </td>
-                <td class="py-4 px-6">
                     {{$rows->types->name}}
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->amount}}
+                    @if ($rows->status == null)
+                        พร้อมบริจาค
+                    @elseif ($rows->status == 'hide')
+                        บริจาคหมดเเล้ว
+                    @else
+                        {{$rows->status}}
+                    @endif
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->quantity}}
+                    {{$rows->amount}} {{$rows->unit}}
+                </td>
+                <td class="py-4 px-6">
+                    {{$rows->quantity}} {{$rows->unit}}
                 </td>
                 <td class="py-4 px-6">
                     {{$rows->givers->name}} {{$rows->givers->surname}}
@@ -211,8 +224,8 @@
                        ดูรายละเอียด
                     </a>
                 </td>
-                <td class="py-4 px-6 text-right">
-                    <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
+                <td class="py-4 px-6 ">
+                    <a href="#" class="font-medium text-gray-500 hover:text-blue-500  text-right"> <label
                             for="edit-product-{{$rows->product_id}}">แก้ไข</label></a>
                     <input type="checkbox" id="edit-product-{{$rows->product_id}}" class="modal-toggle" />
                     <div class="modal">
@@ -228,14 +241,17 @@
                                         @csrf
                                         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                                             <div>
-                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">เลือกรายชื่อผู้บริจาค :</div>
-                                                <select name="giver" type="text"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <div class="text-2xl text-gray-700 m-1 text-left">เลือกรายชื่อผู้บริจาค :</div>
+                                                <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                                                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                                                <select class="w-full js-example-basic-single" id="Sender" name="giver">
                                                     @foreach ($giver as $i=>$givers)
-                                                    <option value="{{$givers->member_id}}">{{$givers->name}}
+                                                    <option class="text-left" value="{{$givers->member_id}}">{{$givers->name}}
                                                         {{$givers->surname}}</option>
                                                     @endforeach
                                                 </select>
+                                                </div>
                                             </div>
                                             <div>
                                                 <div class="text-2xl text-left font-bold text-gray-700 m-1">ชื่อสินค้า :</div>
@@ -249,21 +265,21 @@
                                                 >{{$rows->description}}</textarea>
                                             </div>
                                             <div>
-                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ประเภทสินค้า :</div>
-                                                <select name="type" type="text"
+                                            <div class="text-2xl text-gray-700 text-left m-1">เลือกประเภทสินค้า :</div>
+                                            <select name="type" type="text" 
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <option value="{{$rows->types->product_type_id}}">{{$rows->types->name}}</option>
                                                     @foreach ($type as $i=>$types)
-                                                    <option value="{{$types->product_type_id}}">{{$types->name}}
-                                                    </option>
+                                                    <option value="{{$types->product_type_id}}">{{$types->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div>
                                                 <div class="text-2xl text-left font-bold text-gray-700 m-1">ปริมาณ :</div>
-                                                <input name="quantity" type="text" autocomplete="current-password"
+                                                <input name="amount" type="text" autocomplete="current-password"
                                                     required
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
-                                                    value="{{$rows->quantity}}">
+                                                    value="{{$rows->amount}}">
                                             </div>
                                             <div>
                                                 <div class="text-2xl text-left font-bold text-gray-700 m-1">หน่วย :</div>
@@ -310,4 +326,50 @@
         </tbody>
     </table>
 </div>
+@endif
+<script>
+    $(document).ready(function() {
+        $('#Reciever').select2();
+    });
+    $(document).ready(function() {
+        $('#Sender').select2();
+    });
+    </script>
 @endsection
+{{--
+                        <div>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Giver" name="giver">
+                                <option selected>เลือกรายชื่อผู้รับ</option>
+                                @foreach ($sender as $i=>$senders)
+                                <option  value="{{$senders->member_id}}">
+                                {{$senders->name}} {{$senders->surname}}
+                                </option>
+                                @endforeach
+                              </select>
+                        </div>
+    
+                        <div>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Prodtype" name="type">
+                                <option selected>เลือกรายชื่อผู้รับ</option>
+                                @foreach ($reciever as $i=>$recievers)
+                                <option  value="{{$recievers->member_id}}">
+                                {{$recievers->name}} {{$recievers->surname}}
+                                </option>
+                                @endforeach
+                              </select>
+                        </div>
+<script>
+    $(document).ready(function() {
+        $('#Reciever').select2();
+    });
+    $(document).ready(function() {
+        $('#Sender').select2();
+    });
+    </script>
+                         --}}

@@ -12,11 +12,27 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function products()
+    public function product_type_show()
     {
-        $product_type = Product_type::all();
-        $product = product::where('status', null)->get();
-        return view('Products', compact(['product_type', 'product']));
+        $product_type = product_type::orderByRaw('product_type_id DESC')->get();
+        $co_product_type = product_type::orderByRaw('product_type_id DESC')->get()->count();
+        return view('Product_type', compact(['product_type','co_product_type']));
+    }
+    public function product_show()
+    {
+        $type = Product_type::all();
+        $giver = member::where('type', 'giver')->get();
+        //$product = product::where('status', null)->get();
+        $product = product::orderByRaw('product_id DESC')->get();
+        $co_product = product::orderByRaw('product_id DESC')->get()->count();
+        return view('Product', compact(['type', 'giver', 'product', 'co_product']));
+    }
+    public function product_detail($product_id)
+    {
+        $product = Product::find($product_id);
+        $basket = Basket::where('product_id', $product_id)->where('status', "ส่งสำเร็จ")->get();
+        $co_basket = Basket::where('product_id', $product_id)->where('status', "ส่งสำเร็จ")->get()->count();
+        return view('Product_detail', compact(['basket','co_basket','product']));
     }
     public function product_types($type)
     {
@@ -25,20 +41,41 @@ class ProductController extends Controller
         $product = product::where('status', null)->where('type', $type)->get();
         return view('Product_types', compact(['product_type', 'productT', 'product']));
     }
-    public function product_show()
+    public function products()
     {
-        $type = Product_type::all();
-        $giver = member::where('type', 'giver')->get();
-        //$product = product::where('status', null)->get();
-        $product = product::orderByRaw('product_id DESC')->get();
-        return view('Product', compact(['type', 'giver', 'product']));
+        $product_type = Product_type::all();
+        $product = product::where('status', null)->get();
+        return view('Products', compact(['product_type', 'product']));
     }
-    public function product_detail($product_id)
+    public function basket_show()
     {
-        $product = Product::find($product_id);
-        $basket = Basket::where('product_id', $product_id)->where('status',"ส่งสำเร็จ")->get();
-        return view('Product_detail', compact(['basket', 'product']));
+        $Co_Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get()->count();
+        $Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get();
+        $sender = member::where('type', 'sender')->where('status', 'online')->get();
+        $reciever = member::where('type', 'reciever')->get();
+
+        return view('Basket', compact(['Basket', 'sender', 'reciever', 'Co_Basket']));
     }
+    public function check_donate(Request $request)
+    {
+        $Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get();
+        $reciever = member::find($request->reciever);
+        $sender = member::find($request->sender);
+
+        return view('check_donate', compact(['Basket', 'reciever', 'sender']));
+    }
+    public function donate_show()
+    {
+        $product = product::where('status', null)->get();
+        $reciever = member::where('type', 'reciever')->get();
+        $sender = member::where('type', 'sender')->where('status', 'online')->get();
+        $donate = Donate::orderByRaw('id DESC')->get();
+        $co_donate = Donate::orderByRaw('id DESC')->get()->count();
+        return view('Donate', compact(['product', 'reciever', 'sender', 'donate', 'co_donate']));
+    }
+    // จัดการข้อมูล PRODUCT ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล PRODUCT ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล PRODUCT ----------------------------------------------------------------------------------------------------------
     public function prod_store(Request $request)
     {
         $request->validate([
@@ -55,8 +92,8 @@ class ProductController extends Controller
         $post->name = $request->input('name');
         $post->unit = $request->input('unit');
         $post->description = $request->input('description');
-        $post->quantity = $request->input('quantity');
-        $post->amount = $request->input('quantity');
+        $post->quantity = $request->input('amount');
+        $post->amount = $request->input('amount');
         $post->type = $request->input('type');
         $post->date = $request->input('date');
         if ($request->file('product_image')) {
@@ -77,7 +114,6 @@ class ProductController extends Controller
         $post->save();
         return redirect()->back()->with('store', 'บันทึกข้อมูลสินค้าเรียบร้อยเเล้ว');
     }
-
     public function prod_update(Request $request, $product_id)
     {
         $request->validate([
@@ -90,13 +126,19 @@ class ProductController extends Controller
         ]);
 
         $post = product::find($product_id);
+        $amount = $post->amount - $request->input('amount');
+
+        $post = product::find($product_id);
         $post->giver = $request->input('giver');
         $post->admin = $request->input('admin');
         $post->name = $request->input('name');
         $post->unit = $request->input('unit');
         $post->description = $request->input('description');
-        $post->quantity = $request->input('quantity');
-        $post->amount = $request->input('quantity');
+        $post->amount = $request->input('amount');
+        $post->quantity = $post->quantity - $amount;
+        if ($post->quantity < 0) {
+            return redirect()->back()->with('error', 'จำนวนสินค้าติดลบ กรุณาปรับจำนวนสินค้าใหม่');
+        }
         $post->type = $request->input('type');
         $post->date = $request->input('date');
         if ($request->file('product_image')) {
@@ -108,22 +150,36 @@ class ProductController extends Controller
         }
         $post->save();
         return redirect()->back()->with('update', 'อัพเดทข้อมูลสินค้าเรียบร้อยเเล้ว');
-
     }
-
+    public function cancle_donate($product_id)
+    {
+        $product = product::find($product_id);
+        if (empty($product)) {
+            return redirect()->back()->with(
+                [
+                    'error' => "ไม่พบข้อมูล product_id : {$product_id} นี้ ",
+                ],
+                200
+            );
+        }
+        $product = product::find($product_id);
+        $product->status = "ยกเลิกการบริจาค";
+        $product->save();
+        return redirect()->back()->with(
+            [
+                'error' => "ลบข้อมูลสินค้าเรียบร้อย",
+            ],
+            200
+        );
+    }
     public function prod_delete($product_id)
     {
         product::find($product_id)->delete();
         return redirect()->back()->with('delete', 'ลบสินค้าออกจากระบบเรียบร้อย');
-
     }
-
-    public function product_type_show()
-    {
-        $product_type = product_type::orderByRaw('product_type_id DESC')->get();
-        return view('Product_type', compact(['product_type']));
-    }
-
+    // จัดการข้อมูล PRODUCT_TYPE ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล PRODUCT_TYPE ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล PRODUCT_TYPE ----------------------------------------------------------------------------------------------------------
     public function prod_type_store(Request $request)
     {
         $request->validate([
@@ -162,25 +218,16 @@ class ProductController extends Controller
         }
         $post->save();
         return redirect()->back()->with('update', 'อัพเดทข้อมูลประเภทสินค้าเรียบร้อยเเล้ว');
-
     }
 
     public function prod_type_delete($product_type_id)
     {
         product_type::find($product_type_id)->delete();
         return redirect()->back()->with('delete', 'ลบประเภทสินค้าออกจากระบบเรียบร้อย');
-
     }
-
-    public function donate_show()
-    {
-        $product = product::where('status', null)->get();
-        $reciever = member::where('type', 'reciever')->get();
-        $sender = member::where('type', 'sender')->where('status', 'online')->get();
-        $donate = Donate::orderByRaw('id DESC')->get();
-        return view('Donate', compact(['product', 'reciever', 'sender', 'donate']));
-    }
-
+    // จัดการข้อมูล DONATE ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล DONATE ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล DONATE ----------------------------------------------------------------------------------------------------------
     public function donate_store(Request $request)
     {
         $request->validate([
@@ -198,15 +245,14 @@ class ProductController extends Controller
 
         Basket::where('admin', Auth::user()->member_id)->where('status', "ยังไม่บริจาค")->update(array('donate_id' => $post->id, 'status' => "พร้อมบริจาค"));
 
-        return redirect()->back()->with('store', 'บันทึกข้อมูลการบริจาคเรียบร้อยเเล้ว');
+        return redirect()->route('donate.show')->with('store', 'บันทึกข้อมูลการบริจาคเรียบร้อย');
     }
-
     public function donate_update(Request $request, $id)
     {
         $request->validate([
             'sender' => [''],
             'reciever' => [''],
-            //'admin' => [''],
+            'admin' => [''],
             'status' => [''],
         ]);
 
@@ -214,6 +260,11 @@ class ProductController extends Controller
         $post->sender = $request->input('sender');
         $post->reciever = $request->input('reciever');
         //$post->admin = $request->input('admin');
+        $post->save();
+        if ($post->status == $request->input('status')) {
+            return redirect()->back()->with('update', 'อัพเดทข้อมูลการบริจาคเรียบร้อยเเล้ว');
+        }
+        $post = Donate::find($id);
         $post->status = $request->input('status');
         $post->save();
         Basket::where('donate_id', $id)->update(array('status' => $request->input('status')));
@@ -230,29 +281,18 @@ class ProductController extends Controller
                 } else {
                 }
             }
-        } else {
         }
 
         return redirect()->back()->with('update', 'อัพเดทข้อมูลการบริจาคเรียบร้อยเเล้ว');
     }
-
     public function donate_delete($id)
     {
         Donate::find($id)->delete();
         return redirect()->back()->with('delete', 'ลบข้อมูลการบริจาคออกจากระบบเรียบร้อย');
-
     }
-
-    public function basket_show()
-    {
-        $Co_Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get()->count();
-        $Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get();
-        $sender = member::where('type', 'sender')->where('status', 'online')->get();
-        $reciever = member::where('type', 'reciever')->get();
-
-        return view('Basket', compact(['Basket', 'sender', 'reciever', 'Co_Basket']));
-    }
-
+    // จัดการข้อมูล BASKET ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล BASKET ----------------------------------------------------------------------------------------------------------
+    // จัดการข้อมูล BASKET ----------------------------------------------------------------------------------------------------------
     public function basket_store(Request $request)
     {
         $request->validate([
@@ -260,6 +300,13 @@ class ProductController extends Controller
             'quantity' => ['required'],
             'admin' => ['required'],
         ]);
+
+
+        $post = Product::find($request->input('product_id'));
+        $post->quantity = $post->quantity - $request->input('quantity');
+        if ($post->quantity < 0) {
+            return redirect()->back()->with('error', 'จำนวนสินค้าที่อยู่ในคลัง มีน้อยกว่าจำนวนที่ต้องการ กรุณาปรับจำนวนสินค้าที่ต้องการใหม่');
+        }
 
         $post = new Basket;
         $post->product_id = $request->input('product_id');
@@ -278,13 +325,17 @@ class ProductController extends Controller
         } else {
         }
 
-
         return redirect()->back()->with('store', 'บันทึกข้อมูลเรียบร้อยเเล้ว');
     }
-
     public function basket_update(Request $request, $id)
     {
         $basket = Basket::find($id);
+        $post = Product::find($basket->product_id);
+        $post->quantity = $post->quantity - $request->input('quantity');
+        if ($post->quantity < 0) {
+            return redirect()->back()->with('error', 'จำนวนสินค้าที่อยู่ในคลัง มีน้อยกว่าจำนวนที่ต้องการ กรุณาปรับจำนวนสินค้าที่ต้องการใหม่');
+        }
+
         $product = Product::find($basket->product_id);
         $product->quantity = $product->quantity + $basket->quantity;
         $product->save();
@@ -292,6 +343,7 @@ class ProductController extends Controller
         $request->validate([
             //
         ]);
+
 
         $post = Basket::find($id);
         $post->quantity = $request->input('quantity');
@@ -311,8 +363,7 @@ class ProductController extends Controller
 
         return redirect()->back()->with('update', 'อัพเดทข้อมูลเรียบร้อยเเล้ว');
     }
-
-    public function basket_delete(Request $request,$id)
+    public function basket_delete(Request $request, $id)
     {
         $post = Basket::find($id);
         $post2 = Product::find($post->product_id);
@@ -326,7 +377,5 @@ class ProductController extends Controller
         }
         Basket::find($id)->delete();
         return redirect()->back()->with('delete', 'ลบข้อมูลออกจากระบบเรียบร้อย');
-
     }
-
 }

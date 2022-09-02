@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/update-profile/{member_id}', [App\Http\Controllers\API\MemberController::class, 'update_profile'])->name('update.profile');
 Route::post('/update-password/{member_id}', [App\Http\Controllers\API\MemberController::class, 'update_password'])->name('update.password');
 
-Route::get('/report_sender', [App\Http\Controllers\API\MemberController::class, 'report_sender'])->name('Report.Sender');
+Route::get('/profile', [App\Http\Controllers\API\MemberController::class, 'profile'])->name('profile');
+Route::get('/report_sender', [App\Http\Controllers\API\MemberController::class, 'mission_report'])->name('mission.report');
 
 Route::get('/mission_all', [App\Http\Controllers\API\MemberController::class, 'mission_all'])->name('mission.all');
 Route::get('/new_mission', [App\Http\Controllers\API\MemberController::class, 'new_mission'])->name('new.mission');
@@ -16,6 +17,8 @@ Route::get('/mission_submit', [App\Http\Controllers\API\MemberController::class,
 Route::get('/mission_reject', [App\Http\Controllers\API\MemberController::class, 'mission_reject'])->name('mission.reject');
 Route::get('/mission_fail', [App\Http\Controllers\API\MemberController::class, 'mission_fail'])->name('mission.fail');
 Route::get('/mission_complete', [App\Http\Controllers\API\MemberController::class, 'mission_complete'])->name('mission.complete');
+
+Route::post('/product/store', [App\Http\Controllers\API\ProductController::class, 'product_store'])->name('product.store');
 
 Route::post('/mission/update/{id}', [App\Http\Controllers\API\MemberController::class, 'mission_update'])->name('mission.update');
 

@@ -34,6 +34,7 @@ class BasketResource extends JsonResource
                 'description' => $this->product->description,
                 'amount' => (int)$this->product->amount." ".$this->product->unit,
                 'quantity' => (int)$this->product->quantity." ".$this->product->unit,
+                'status' => $this->status,
                 'product_image' => asset('/storage/product/product_image_assets/'.$this->product->product_image),
             ];
         }

@@ -16,6 +16,7 @@ class ProductSelectTypeResource extends JsonResource
     {
             return [
                 'product_id' => $this->product_id,
+                'product_type_id' => $this->type,
                 'name' => $this->name,
                 'type' => $this->types->name,
                 'quantity' => (int)$this->quantity." ".$this->unit,

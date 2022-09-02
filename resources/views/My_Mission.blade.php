@@ -27,14 +27,15 @@
 @endif
 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
+    shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
     <div class="flex items-center">
         <span>ภารกิจของฉัน</span>
     </div>
 </div>
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     วันที่บริจาค

@@ -28,17 +28,18 @@
 
 
 @if ($Co_Basket == 0)
-    <div class="m-5 shadow-md rounded-lg text-2xl  font-bold text-gray-700 p-5">ไม่พบสินค้าในตะกร้า ...</div>
-@else
+    {{-- <div class="mx-10 shadow-md rounded-lg text-2xl  font-bold text-gray-700 p-5">ไม่พบสินค้าในตะกร้า</div> --}}
+@else 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-3xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
-    <div class="flex items-center">
-        <span>ตะกร้าของฉัน</span>
-    </div>
-</div> 
+class="flex mx-10 items-center justify-between mb-3 p-3 text-3xl font-semibold text-white 
+bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"style="background-color: #F4A261">
+<div class="flex items-center" >
+    <span>ตะกร้าของฉัน</span>
+</div>
+</div>
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     <span class="sr-only">รูปภาพ</span>
@@ -74,7 +75,7 @@
                     {{$rows->product->types->name}}
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->quantity}}
+                    {{$rows->quantity}} {{$rows->product->unit}}
                 </td> 
                 <td class="py-4 px-6 text-right">
                     <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
@@ -148,78 +149,138 @@
         </tbody>
     </table>
 </div>
-<form action="{{route('donate.store')}}" method="POST" enctype="multipart/form-data" >
-    @csrf
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
-    <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    เลือกรายชื่อผู้จัดส่ง
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <div>
-                        <select name="sender" type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-2xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option>เลือกรายชื่อผู้จัดส่ง</option>
-                            @foreach ($sender as $i=>$senders)
-                            <option value="{{$senders->member_id}}">{{$senders->name}} {{$senders->surname}} || สถานะ : {{$senders->status}} || <br>
-                            ที่อยู่ : 
-                            เขต {{$senders->county}} ถนน {{$senders->road}} ซอย {{$senders->alley}} บ้านเลขที่ {{$senders->house_number}}
-                            หมู่ที่ {{$senders->group_no}} ตำบล {{$senders->district}} อำเภอ {{$senders->sub_district}} จังหวัด
-                            {{$senders->province}}
-                            ไปรษณีย์ {{$senders->ZIP_code}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<form action="{{route('check.donate')}}" method="POST" enctype="multipart/form-data" >
+    @csrf    
 
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
-    <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    เลือกรายชื่อผู้รับ
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <div>
-                        <select name="reciever" type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-2xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option>เลือกรายชื่อผู้รับ</option>
-                            @foreach ($reciever as $i=>$recievers)
-                            <option value="{{$recievers->member_id}}">{{$recievers->name}} {{$recievers->surname}} || <br>
-                            ที่อยู่ : 
-                            เขต {{$recievers->county}} ถนน {{$recievers->road}} ซอย {{$recievers->alley}} บ้านเลขที่ {{$recievers->house_number}}
-                            หมู่ที่ {{$recievers->group_no}} ตำบล {{$recievers->district}} อำเภอ {{$recievers->sub_district}} จังหวัด
-                            {{$recievers->province}} ไปรษณีย์ {{$recievers->ZIP_code}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
+        <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        เลือกรายชื่อผู้จัดส่ง
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Sender" name="sender">
+                                <option>เลือกรายชื่อผู้จัดส่ง</option>
+                                @foreach ($sender as $i=>$senders)
+                                <option value="{{$senders->member_id}}">{{$senders->name}} {{$senders->surname}} || สถานะ : {{$senders->status}} || <br>
+                                ที่อยู่ : 
+                                @if ($senders->sub_district == null)
+                                    ไม่ระบุ                        
+                                @else
+                                เขต {{$senders->county}} ถนน {{$senders->road}} ซอย {{$senders->alley}} บ้านเลขที่ {{$senders->house_number}}
+                                หมู่ที่ {{$senders->group_no}} ตำบล {{$senders->sub_district}} อำเภอ {{$senders->district}} จังหวัด
+                                {{$senders->province}}
+                                ไปรษณีย์ {{$senders->ZIP_code}}
+                                @endif
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
+        <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        เลือกรายชื่อผู้รับ
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Reciever" name="reciever">
+                                <option>เลือกรายชื่อผู้รับ</option>
+                                @foreach ($reciever as $i=>$recievers)
+                                <option value="{{$recievers->member_id}}">{{$recievers->name}} {{$recievers->surname}} || <br>
+                                ที่อยู่ : 
+                                @if ($recievers->sub_district == null)
+                                    ไม่ระบุ                        
+                                @else
+                                เขต {{$recievers->county}} ถนน {{$recievers->road}} ซอย {{$recievers->alley}} บ้านเลขที่ {{$recievers->house_number}}
+                                หมู่ที่ {{$recievers->group_no}} ตำบล {{$recievers->sub_district}} อำเภอ {{$recievers->district}} จังหวัด
+                                {{$recievers->province}} ไปรษณีย์ {{$recievers->ZIP_code}}
+                                @endif
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 <input type="hidden" name="admin" value="{{Auth::user()->member_id}}" required>
 
-<button type="submit" class="bg-green-500 text-white active:bg-pink-500 font-bold uppercase text-2xl px-6 py-3 mx-10 mt-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-type="button">ทำการบริจาค</button>
+
+<button type="sumbit" class="bg-green-500 text-white active:bg-pink-500 font-bold uppercase text-2xl px-6 py-3 mx-10 mb-5
+mt-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+style="background-color: #2A9D8F" >ทำการบริจาค</button>
 
 </form>
+
 @endif
+<script>
+    $(document).ready(function() {
+        $('#Reciever').select2();
+    });
+    $(document).ready(function() {
+        $('#Sender').select2();
+    });
+    </script>
 @endsection
+{{--
+                        <div>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Sender" name="sender">
+                                <option selected>เลือกรายชื่อผู้รับ</option>
+                                @foreach ($sender as $i=>$senders)
+                                <option  value="{{$senders->member_id}}">
+                                {{$senders->name}} {{$senders->surname}}
+                                </option>
+                                @endforeach
+                              </select>
+                        </div>
+    
+                        <div>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                            
+                            <select class="w-full js-example-basic-single" id="Reciever" name="reciever">
+                                <option selected>เลือกรายชื่อผู้รับ</option>
+                                @foreach ($reciever as $i=>$recievers)
+                                <option  value="{{$recievers->member_id}}">
+                                {{$recievers->name}} {{$recievers->surname}}
+                                </option>
+                                @endforeach
+                              </select>
+                        </div>
+<script>
+    $(document).ready(function() {
+        $('#Reciever').select2();
+    });
+    $(document).ready(function() {
+        $('#Sender').select2();
+    });
+    </script>
+                         --}}

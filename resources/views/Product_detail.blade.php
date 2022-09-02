@@ -3,7 +3,8 @@
 @section('content')
 
     <div
-        class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+        class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
+        shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
         <div class="flex items-center">
             <span>ข้อมูลสินค้า</span>
         </div>
@@ -11,7 +12,7 @@
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     <span class="sr-only">รูปภาพ</span>
@@ -77,16 +78,19 @@
     </table>
 </div>
 
+@if ($co_basket == null)
+    
+@else
 <div
-class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
+shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
 <div class="flex items-center">
     <span>ข้อมูลการบริจาค</span>
 </div>
 </div>
-
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     วันที่บริจาค
@@ -103,6 +107,9 @@ class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semib
                 <th scope="col" class="py-3 px-6">
                     เจ้าหน้าที่
                 </th>
+                <th scope="col" class="py-3 px-6">
+                    <span class="sr-only" width="5%">ดูรายละเอียด</span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -118,10 +125,14 @@ class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semib
                     {{$rows->donates->recievers->name}} {{$rows->donates->recievers->surname}}
                 </td>
                 <td class="py-4 px-6">
+                    @if ($rows->donates->recievers->sub_district == null)
+                        ไม่ระบุ                        
+                    @else
                     เขต {{$rows->donates->recievers->county}} ถนน {{$rows->donates->recievers->road}} ซอย {{$rows->donates->recievers->alley}}
                     บ้านเลขที่ {{$rows->donates->recievers->house_number}} หมู่ที่ {{$rows->donates->recievers->group_no}} 
-                    ตำบล {{$rows->donates->recievers->district}} อำเภอ {{$rows->donates->recievers->sub_district}} 
+                    ตำบล {{$rows->donates->recievers->sub_district}} อำเภอ {{$rows->donates->recievers->district}} 
                     จังหวัด {{$rows->donates->recievers->province}} ไปรษณีย์ {{$rows->donates->recievers->ZIP_code}}
+                    @endif
                 </td>
                 @if ($rows->admin == null)
                 <td class="py-4 px-6">
@@ -132,9 +143,16 @@ class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semib
                     {{$rows->admins->name}} {{$rows->admins->surname}}
                 </td>
                 @endif
+                <td class="py-4 px-6 text-right">
+                    <a href="{{route('mission.detail',$rows->donate_id)}}"
+                        class="font-medium text-gray-500 hover:text-blue-500">
+                        ดูรายละเอียด
+                    </a>
+                </td>
                 </tr>
                 @endforeach
         </tbody>
     </table>
 </div>
+@endif
 @endsection

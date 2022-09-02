@@ -54,11 +54,11 @@ class LoginController extends Controller
     public function login(Request $request){
        // dd($request);
         $this->validate($request, [
-            'email' => 'required',
+            'tel' => 'required',
             'password' => 'required'
         ]);
-        
-            if (Auth::guard('member')->attempt(['email'=>$request->email,'password'=>$request->password],
+        //dd($request->password);
+            if (Auth::guard('member')->attempt(['tel'=>$request->tel,'password'=>$request->password],
             //$request->get('remember')
             )){
                 return redirect()->route('Dashboard');

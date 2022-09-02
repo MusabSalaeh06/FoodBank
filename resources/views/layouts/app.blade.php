@@ -107,11 +107,12 @@
 <body>
 
 
-    <nav class="flex items-center justify-between flex-wrap bg-red-400 p-6">
-        <div class="flex items-center flex-no-shrink text-white mr-6">
-          <span class="font-semibold text-3xl tracking-tight">
-            FoodBank
-          </span>
+      <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653">
+        <div class="flex items-center flex-no-shrink text-white mr-3">
+              <img src="/storage/logo.png" width="100px" height="100px">
+            <span class="inline font-semibold text-3xl tracking-tight">
+              Foodbank
+            </span>
         </div>
         <div class="block lg:hidden">
           <button data-toggle-hide="[data-nav-content]" class="

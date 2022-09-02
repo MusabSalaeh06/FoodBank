@@ -27,7 +27,8 @@
 @endif
 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white rounded-lg 
+    shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
     <div class="flex items-center">
         <span>สินค้าแต่ละประเภท</span>
     </div>
@@ -35,7 +36,7 @@
 
 <!-- component -->
 <!-- This is an example component -->
-<div class="grid gap-6 mb-3 md:grid-cols-2 xl:grid-cols-7">
+<div class="grid gap-6 mb-3 md:grid-cols-2 xl:grid-cols-6">
 @foreach ($product_type as $rows)
 <div class="w-56 mx-10 mb-3">
     
@@ -44,7 +45,8 @@
         <div class="p-5">
                 <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">{{$rows->name}}</h5>
             <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">{{$rows->description}}</p>
-            <a href="{{route('product_types',$rows->product_type_id)}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <a href="{{route('product_types',$rows->product_type_id)}}" class="py-2 px-4 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 font-bold
+              w-full flex items-center justify-center text-xl" style="background-color: #2A9D8F">
               เลือก
             </a>
         </div>
@@ -54,12 +56,13 @@
 </div>
 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white rounded-lg 
+    shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
     <div class="flex items-center">
         <span>สินค้าทั้งหมด</span>
     </div>
 </div>
-<div class="grid gap-6 mb-3 md:grid-cols-2 xl:grid-cols-7">
+<div class="grid gap-6 mb-3 md:grid-cols-2 xl:grid-cols-6">
 @foreach ($product as $rows)
 <form action="{{route('basket.store')}}" method="POST" enctype="multipart/form-data" >
     @csrf
@@ -78,14 +81,16 @@
           <h1 class="text-gray-800 text-center mt-1 text-2xl">{{$rows->name}}</h1>
           <p class="text-center text-gray-800 mt-1 text-xl">(เหลือ : {{$rows->quantity}} {{$rows->unit}} )</p>
           <div class="inline-flex items-center mt-2">
-            <input name="quantity" type="text"  placeholder="จำนวนที่ต้องการ" required
+            <input name="quantity" type="number"  placeholder="จำนวนที่ต้องการ" required
             class="appearance-none rounded-none relative block w-full px-3 py-1 border border-gray-300 placeholder-gray-500 text-gray-900 
-            rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-md">
+            rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl">
             </div>
       
           <button type="submit"
-            class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 w-full flex items-center justify-center text-xl"
-          >        <svg
+            class="py-2 px-4 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 font-bold
+            w-full flex items-center justify-center text-xl" style="background-color: #2A9D8F"
+          >เพิ่มลงตะกร้า  
+          {{-- <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 ml-2"
           fill="none"
@@ -98,7 +103,7 @@
             stroke-width="2"
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
           />
-        </svg>
+        </svg> --}}
           </button>
         </div>
       </div>

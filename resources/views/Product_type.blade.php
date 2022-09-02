@@ -27,13 +27,14 @@
 @endif
 
 <div
-    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple">
+    class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
+    shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
     <div class="flex items-center">
         <span>จัดการข้อมูลประเภทสินค้า</span>
     </div>
     <label
         class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button" for="add-product-type">
+        type="button" for="add-product-type" style="background-color: #2A9D8F">
         เพิ่มข้อมูล
     </label>
     <input type="checkbox" id="add-product-type" class="modal-toggle" />
@@ -43,7 +44,7 @@
                         เพิ่มข้อมูลประเภทสินค้า
                     </div>
             <div class="w-full p-5">
-                    <form class="mt-8 space-y-6" action="{{ route('prod_type.store') }}" method="POST">
+                    <form class="mt-8 space-y-6" action="{{ route('prod_type.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                             <div>
@@ -81,9 +82,11 @@
             </div>
         </div>
     </div>
+    @if ($co_product_type == null)
+    @else
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400">
+        <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
                 <th scope="col" class="py-3 px-6">
                     ลำดับ
@@ -191,4 +194,5 @@
         </tbody>
     </table>
 </div>
+@endif
 @endsection

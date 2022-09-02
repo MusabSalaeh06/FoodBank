@@ -21,6 +21,11 @@ class DonateBasketResource extends JsonResource
             'reciever' => $this->donates->recievers->name." ".$this->donates->recievers->surname,
             'sender' => $this->donates->senders->name." ".$this->donates->senders->surname,
             'status' => $this->donates->status,
+            'address_reciever' => "เขต :"." ".$this->donates->recievers->county." "."ถนน :"." ".$this->donates->recievers->road." ".
+                                "ตรอก/ซอย :"." ".$this->donates->recievers->alley." "."บ้านเลขที่ :"." ".$this->donates->recievers->house_number." ".
+                                "หมู่ :"." ".$this->donates->recievers->group_no." "."ตำบล :"." ".$this->donates->recievers->sub_district." ".
+                                "อำเภอ :".$this->donates->recievers->district." "."จังหวัด :"." ".$this->donates->recievers->province." ".
+                                "รหัสไปรษณีย์ :"." ".$this->donates->recievers->ZIP_code,
         ];
     }
 }

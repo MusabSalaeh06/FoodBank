@@ -116,13 +116,12 @@
 <body>
 
 
-    <nav class="flex items-center justify-between flex-wrap bg-red-400 p-6">
-        <div class="flex items-center flex-no-shrink text-white mr-6">
-          <a href="/">
-            <span class="font-semibold text-3xl tracking-tight">
-              FoodBank
+    <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653">
+        <div class="flex items-center flex-no-shrink text-white mr-3">
+              <img src="/storage/logo.png" width="100px" height="100px">
+            <span class="inline font-semibold text-3xl tracking-tight">
+              Foodbank
             </span>
-          </a>
         </div>
         <div class="block lg:hidden">
           <button data-toggle-hide="[data-nav-content]" class="
@@ -219,7 +218,7 @@
               <div class="text-white  text-center inline-flex items-center text-2xl">
                 {{Auth::user()->name}} {{Auth::user()->surname}} || สถานะ : {{Auth::user()->status}} 
                 <label
-                class="bg-green-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 mx-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                class="bg-white text-gray-700 font-bold text-2xl px-3 py-3 ml-3 overflow-hidden bg-white hover:text-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
                 type="button" for="edit-sender">
                 อัพเดทสถานะ
                 </label>
@@ -232,7 +231,7 @@
                                     <img class="mx-auto h-12 w-auto"
                                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                                         alt="Workflow">
-                                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-700">
                                       อัพเดทสถานะ</h2>
                                 </div>
                                 <form action="{{ route('sender.update',Auth::user()->member_id)}}" method="POST"
@@ -252,7 +251,7 @@
                                     </div>
                                     <div>
                                         <button type="submit"
-                                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            class="group relative w-full flex justify-center py-2 px-4 mt-3 border border-transparent text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                                             </span>
                                             อัพเดท
@@ -270,15 +269,15 @@
               </div>  
               @elseif (Auth::user()->type == "admin")
               <a href="{{route('Dashboard')}}">
-                <button class="bg-yellow-400 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
                 type="button"><box-icon name='home' ></box-icon></button>
               </a>
               <a href="{{route('products')}}">
-                <button class="bg-blue-400 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mx-1 mb-1 ease-linear transition-all duration-150"
+                <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
                 type="button"><box-icon name='store-alt' ></box-icon></button>
               </a>
               <a href="{{route('basket.show')}}">
-                <button class="bg-green-400 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 mx-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
                 type="button"><box-icon name='basket' ></box-icon></button>
               </a>
               <div class="text-white  text-center inline-flex items-center text-2xl">
@@ -290,14 +289,13 @@
               </div> 
               @endif
             </div>
-            <a href="/logout" class="
-                block mt-4 lg:inline-block lg:mt-0 text-teal-lighter 
-                hover:text-white mr-4 rounded focus:outline-none 
-                focus:shadow-outline
-              ">
-              <button class="text-white bg-gray-50 text-center inline-flex items-center rounded-lg shadow-md p-2 text-3xl" 
-                type="button"><box-icon name='log-out-circle'></box-icon>
-              </button>
+            <a href="{{route('my.profile')}}">
+              <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
+              type="button"><box-icon name='user-circle'></box-icon></button>
+            </a>
+            <a href="{{route('logout')}}">
+              <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
+              type="button"><box-icon name='log-out-circle'></box-icon></button>
             </a>
             {{-- 
               <a href="#" class="

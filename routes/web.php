@@ -16,6 +16,12 @@ Route::group(['middleware' => 'auth:member'], function () {
 
 Route::get('/', [App\Http\Controllers\MemberController::class, 'Dashboard'])->name('Dashboard');
 
+Route::get('/my-profile', [App\Http\Controllers\MemberController::class, 'my_profile'])->name('my.profile');
+
+Route::put('/update-myprofile/{member_id}', [App\Http\Controllers\MemberController::class, 'update_profile'])->name('update.myprofile');
+Route::put('/update-mypassword/{member_id}', [App\Http\Controllers\MemberController::class, 'update_password'])->name('update.mypassword');
+
+Route::post('/check/donate', [App\Http\Controllers\ProductController::class, 'check_donate'])->name('check.donate');
 Route::put('/sender/update/{member_id}', [App\Http\Controllers\MemberController::class, 'sender_update'])->name('sender.update');
 
 Route::get('/giver/show', [App\Http\Controllers\MemberController::class, 'giver_show'])->name('giver.show');
@@ -55,6 +61,7 @@ Route::get('/mission/detail/{id}', [App\Http\Controllers\MemberController::class
 Route::put('/mission/update/{id}', [App\Http\Controllers\MemberController::class, 'mission_update'])->name('mission.update');
 
 Route::get('/my/donate', [App\Http\Controllers\MemberController::class, 'my_donate'])->name('my.donate');
+Route::get('/cancle/donate/{product_id}', [App\Http\Controllers\ProductController::class, 'cancle_donate'])->name('cancle.donate');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
