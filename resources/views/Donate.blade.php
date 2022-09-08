@@ -57,16 +57,16 @@
                 <th scope="col" class="py-3 px-6">
                     เจ้าหน้าที่ควบคุม
                 </th>
-                <th scope="col" class="py-3 px-6">
-                    <span class="sr-only" width="5%">ดูรายละเอียด</span>
+                <th scope="col" class="py-3 px-6" colspan="2">
+                    <span class="sr-only"></span>
                 </th>
-                <th scope="col" class="py-3 px-6">
+               {{-- <th scope="col" class="py-3 px-6">
                     <span class="sr-only" width="5%">แก้ไข</span>
                 </th>
-                {{----}}
+                
                 <th scope="col" class="py-3 px-6" width="5%">
                     <span class="sr-only">ลบ</span>
-                </th>
+                </th>--}}
             </tr>
         </thead>
         <tbody>
@@ -96,6 +96,20 @@
                         ดูรายละเอียด
                     </a>
                 </td>
+                @if ($rows->status == "รอการตอบรับ")
+                <td class="py-4 px-6 text-right">
+                    <a href="{{route('donate.cancle',$rows->id)}}"
+                        class="bg-red-500 text-white active:bg-red-300 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button"
+                        onclick="return confirm('คุณต้องการยกเลิกภารกิจหรือไม่?')">
+                        ยกเลิกภารกิจ ( เวลาผ่านไป {{ Carbon\Carbon::now()->diffInMinutes($rows->created_at)}} นาที )
+                    </a>
+                </td>
+                @else
+                <td class="py-4 px-6 text-right">
+                </td>
+                @endif
+                {{--
                 <td class="py-4 px-6 text-right">
                     <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
                             for="edit-donate-{{$rows->id}}">แก้ไข</label></a>
@@ -237,7 +251,7 @@
                             onclick="return confirm('คุณต้องการลบการบริจาคหรือไม่?')">
                             ลบ</button>
                     </form>
-                </td>
+                </td> --}}
                 @endforeach
             </tr>
         </tbody>

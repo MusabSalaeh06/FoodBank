@@ -18,6 +18,7 @@ class ProductResource extends JsonResource
         if ($this->description == null) {
             return [
                 'product_id' => $this->product_id,
+                'status' => $this->status,
                 'name' => $this->name,
                 'type' => $this->types->name,
                 'description' => "ยังไม่มีคำอธิบาย",
@@ -27,6 +28,7 @@ class ProductResource extends JsonResource
         } else {
             return [
                 'product_id' => $this->product_id,
+                'status' => $this->status,
                 'name' => $this->name,
                 'type' => $this->types->name,
                 'description' => $this->description,

@@ -19,9 +19,13 @@ class CreateProductsTable extends Migration
             $table->string('admin')->nullable();
             $table->string('name')->nullable();
             $table->string('type')->nullable();
+            $table->string('amount')->nullable();
             $table->string('quantity')->nullable();
+            $table->string('unit')->nullable();
             $table->string('date')->nullable();
+            $table->string('description')->nullable();
             $table->string('product_image')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

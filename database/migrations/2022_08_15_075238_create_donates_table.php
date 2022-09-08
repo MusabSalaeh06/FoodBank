@@ -15,10 +15,11 @@ class CreateDonatesTable extends Migration
     {
         Schema::create('donates', function (Blueprint $table) {
             $table->id('id');
-            $table->string('product_id');
-            $table->string('quantity');
-            $table->string('reciever');
-            $table->string('admin');
+            $table->string('admin')->nullable();
+            $table->string('sender')->nullable();
+            $table->string('reciever')->nullable();
+            $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

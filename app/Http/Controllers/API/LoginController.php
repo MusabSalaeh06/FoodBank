@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\member;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -26,9 +27,9 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        // $request->session()->regenerateToken();
 
         return response()->json(
             [
@@ -62,10 +63,17 @@ class LoginController extends Controller
         ]);
             if (Auth::guard('member')->attempt(['tel'=>$request->tel,'password'=>$request->password],
             )){
+               //dd(Auth::guard('member')->user()->full_name);
+                $user = Auth::guard('member')->user();
                 return response()->json(
                     [
                         'status' => true,
-                        'data' => [],
+                        //'data' => Auth::guard('member')->user(),
+                        'data' => [
+                                   "member_id" => $user->member_id,
+                                   "full_name" => $user->full_name,
+                                   "tel" => $user->tel_hidden,
+                        ],
                         'message' => "เข้าสู่ระบบสำเร็จ",
                     ], 200);
             }

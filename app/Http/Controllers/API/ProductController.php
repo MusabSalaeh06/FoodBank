@@ -10,6 +10,7 @@ use App\Http\Resources\ProductSelectTypeResource;
 use App\Http\Resources\ProductTypeDetailResource;
 use App\Http\Resources\ProductTypeResource;
 use App\Models\Basket;
+use App\Models\Member;
 use App\Models\Product;
 use App\Models\Product_type;
 use Illuminate\Http\Request;
@@ -28,9 +29,9 @@ class ProductController extends Controller
                 'message' => "ข้อมูลสินค้าทั้งหมดในระบบ",
             ], 200);
         }
-    public function my_donate_product()
+    public function my_donate_product(Request $request)
     {
-        $my_donate_product = Product::where('giver', '3')->get();
+        $my_donate_product = Product::where('giver', $request->member_id)->get();
         return response()->json(
             [
                 'status' => true,
@@ -38,56 +39,25 @@ class ProductController extends Controller
                 'message' => "ข้อมูลสินค้าที่ฉันบริจาค",
             ], 200);
     }
-    public function product_detail($product_id)
-    {
-        $product = Product::find($product_id);
-        if (empty($product)) {
-            return response()->json(
-                [
-                    'status' => false,
-                    'data' => [],
-                    'message' => "ไม่พบข้อมูล product_id : {$product_id} นี้ ",
-                ], 200
-            );
-        }
-        return response()->json(
-            [
-                'status' => true,
-                'data' => ProductDetailResource::make($product),
-                'message' => "ข้อมูลรายละเอียดสินค้า product_id : {$product_id} ",
-            ], 200);
-    }
-    public function donate_product_detail($product_id)
-    {
-        $donate = Basket::where('product_id', $product_id)->where('status', 'ส่งสำเร็จ')->get();
-
-        return response()->json(
-            [
-                'status' => true,
-                'data' => DonateBasketResource::collection($donate),
-                'message' => "ข้อมูลรายละเอียดการบริจาคสินค้า product_id : {$product_id} ",
-            ], 200);
-
-    }
     public function product_types()
     {
         $product_types = Product_type::all();
         return response()->json(
             [
                 'status' => true,
-                'product_types' => ProductTypeResource::collection($product_types),
+                'data' => ProductTypeResource::collection($product_types),
                 'message' => "ข้อมูลประเภทสินค้าทั้งหมดในระบบ",
             ], 200);
     }
-    public function product_type_detail($product_type_id)
+    public function product_type_detail(Request $request)
     {
-        $Product_type_detail = Product_type::find($product_type_id);
+        $Product_type_detail = Product_type::find($request->product_type_id);
         if (empty($Product_type_detail)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล product_type_id : {$product_type_id} นี้ ",
+                    'message' => "ไม่พบข้อมูล product_type_id : {$request->product_type_id} นี้ ",
                 ], 200
             );
         }
@@ -95,18 +65,49 @@ class ProductController extends Controller
                 [
                     'status' => true,
                     'data' => ProductTypeDetailResource::make($Product_type_detail),
-                    'message' => "ข้อมูลรายละเอียดประเภทสินค้า product_type_id : {$product_type_id}",
+                    'message' => "ข้อมูลรายละเอียดประเภทสินค้า product_type_id : {$request->product_type_id}",
                 ], 200);
     }
-    public function product_select_type($product_type_id)
+    public function product_select_type(Request $request)
     {
-        $product_select_type = product::query()->with(['types'])->where('type', $product_type_id)->get();
+        $product_select_type = product::query()->with(['types'])->where('type', $request->product_type_id)->get();
         return response()->json(
             [
                 'status' => true,
                 'data' => ProductSelectTypeResource::collection($product_select_type),
-                'message' => "ข้อมูลสินค้าที่อยู่ในประเภท product_type_id : {$product_type_id}",
+                'message' => "ข้อมูลสินค้าที่อยู่ในประเภท product_type_id : {$request->product_type_id}",
             ], 200);
+    }
+    public function product_detail(Request $request)
+    {
+        $product = Product::find($request->product_id);
+        if (empty($product)) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "ไม่พบข้อมูล product_id : {$request->product_id} นี้ ",
+                ], 200
+            );
+        }
+        return response()->json(
+            [
+                'status' => true,
+                'data' => ProductDetailResource::make($product),
+                'message' => "ข้อมูลรายละเอียดสินค้า product_id : {$request->product_id} ",
+            ], 200);
+    }
+    public function donate_product_detail(Request $request)
+    {
+        $donate = Basket::where('product_id', $request->product_id)->where('status', 'ส่งสำเร็จ')->get();
+
+        return response()->json(
+            [
+                'status' => true,
+                'data' => DonateBasketResource::collection($donate),
+                'message' => "ข้อมูลรายละเอียดการบริจาคสินค้า product_id : {$request->product_id} ",
+            ], 200);
+
     }
     public function product_store(Request $request)
     {
@@ -158,18 +159,20 @@ class ProductController extends Controller
 
         return response()->json(
             [
-                'store' => 'บันทึกข้อมูลสินค้าเรียบร้อยเเล้ว',
+                'status' => true,
+                'data' => [],
+                'message' => "บันทึกข้อมูลสินค้าเรียบร้อยเเล้ว",
             ], 200);
     }
-    public function my_donate_product_cancle($product_id)
+    public function my_donate_product_cancle(Request $request)
     {
-        $post = product::find($product_id);
+        $post = product::find($request->product_id);
         if (empty($post)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล product_id : {$product_id} นี้ ",
+                    'message' => "ไม่พบข้อมูล product_id : {$request->product_id} นี้ ",
                 ], 200
             );
         }

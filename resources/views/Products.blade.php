@@ -44,7 +44,7 @@
             <img class="rounded-t-lg h-40" src="/storage/product_type/product_type_image_assets/{{$rows->image}}" alt="">
         <div class="p-5">
                 <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">{{$rows->name}}</h5>
-            <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">{{$rows->description}}</p>
+            <p class="font-normal text-gray-700 mb-3 text-xl dark:text-gray-400">{{$rows->description}}</p>
             <a href="{{route('product_types',$rows->product_type_id)}}" class="py-2 px-4 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-4 font-bold
               w-full flex items-center justify-center text-xl" style="background-color: #2A9D8F">
               เลือก

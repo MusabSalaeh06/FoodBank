@@ -16,10 +16,13 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id('member_id');
             $table->string('email')->nullable();
+            $table->string('pass')->nullable();
             $table->string('password')->nullable();
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
             $table->string('tel')->nullable();
+            $table->string('card_id')->nullable();
+            $table->string('profile')->nullable();
             $table->string('type')->nullable();
             $table->string('county')->nullable();
             $table->string('road')->nullable();
@@ -30,6 +33,7 @@ class CreateMembersTable extends Migration
             $table->string('district')->nullable();
             $table->string('province')->nullable();
             $table->string('ZIP_code')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

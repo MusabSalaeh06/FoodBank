@@ -95,6 +95,10 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+    <!-- Favicons -->
+    <link href="{{ asset('storage/logo.png')}}" rel="icon">
+    <link href="{{ asset('storage/logo.png')}}" rel="apple-touch-icon">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -107,13 +111,13 @@
 <body>
 
 
-      <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653">
+      <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653"> 
         <div class="flex items-center flex-no-shrink text-white mr-3">
-              <img src="/storage/logo.png" width="100px" height="100px">
-            <span class="inline font-semibold text-3xl tracking-tight">
-              Foodbank
-            </span>
-        </div>
+          <img src="/storage/logo-1.png" width="100px" height="100px">
+        <span class="inline font-semibold text-3xl tracking-tight">
+          <img src="/storage/logo-2.png" width="100px" height="100px">
+        </span>
+    </div>
         <div class="block lg:hidden">
           <button data-toggle-hide="[data-nav-content]" class="
               flex items-center px-3 py-2 border rounded 

@@ -15,6 +15,7 @@ class DonateResource extends JsonResource
     public function toArray($request)
     {
         date_default_timezone_set("Asia/Bangkok");
+        if ($this->image == null) {
             return [
                 'id' => $this->id,
                 'date_update' => date($this->updated_at),
@@ -25,6 +26,22 @@ class DonateResource extends JsonResource
                                     "อำเภอ :".$this->recievers->district." "."จังหวัด :"." ".$this->recievers->province." ".
                                     "รหัสไปรษณีย์ :"." ".$this->recievers->ZIP_code,
                 'status' => $this->status,
+                'image' => "ไม่มีรูปภาพ",
             ];
+        } else {
+            return [
+                'id' => $this->id,
+                'date_update' => date($this->updated_at),
+                'reciever' => $this->recievers->name." ".$this->recievers->surname,
+                'address_reciever' => "เขต :"." ".$this->recievers->county." "."ถนน :"." ".$this->recievers->road." ".
+                                    "ตรอก/ซอย :"." ".$this->recievers->alley." "."บ้านเลขที่ :"." ".$this->recievers->house_number." ".
+                                    "หมู่ :"." ".$this->recievers->group_no." "."ตำบล :"." ".$this->recievers->sub_district." ".
+                                    "อำเภอ :".$this->recievers->district." "."จังหวัด :"." ".$this->recievers->province." ".
+                                    "รหัสไปรษณีย์ :"." ".$this->recievers->ZIP_code,
+                'status' => $this->status,
+                'image' => asset('/storage/donate/donate_image_assets/'.$this->image),
+            ];
+        }
+        
     }
 }

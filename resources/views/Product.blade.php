@@ -62,7 +62,7 @@
                             </div>
                             <div>
                                 <div class="text-2xl text-gray-700 m-1">ชื่อสินค้า :</div>
-                                <input name="name" type="text" autocomplete="current-password" required
+                                <input name="name" type="text" autocomplete="current-password" 
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     placeholder="...">
                             </div>
@@ -83,13 +83,13 @@
                             </div>
                             <div>
                                 <div class="text-2xl text-gray-700 m-1">ปริมาณ :</div>
-                                <input name="amount" type="text" autocomplete="current-password" required
+                                <input name="amount" type="text" autocomplete="current-password" 
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     placeholder="...">
                             </div>
                             <div>
-                                <div class="text-2xl text-gray-700 m-1">หน่วย :</div>
-                                <input name="unit" type="text" autocomplete="current-password" required
+                                <div class="text-2xl text-gray-700 m-1">หน่วย (เช่น ห่อ,ถุง) :</div>
+                                <input name="unit" type="text" autocomplete="current-password" 
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     placeholder="...">
                             </div>
@@ -99,7 +99,7 @@
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl">
                             </div>
                             <div>
-                                <input name="admin" type="hidden" autocomplete="current-password" required
+                                <input name="admin" type="hidden" autocomplete="current-password" 
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     value="{{Auth::user()->member_id}}">
                             </div>
@@ -190,7 +190,11 @@
                     {{$rows->name}}
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->types->name}}
+                    @if ($rows->types == null)
+                        ข้อมูลประเภทสินค้าถูกลบ
+                    @else
+                        {{$rows->types->name}}
+                    @endif
                 </td>
                 <td class="py-4 px-6">
                     @if ($rows->status == null)
@@ -239,13 +243,13 @@
                                         {{ csrf_field()}}
                                         {{ method_field('PUT') }}
                                         @csrf
-                                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                                        <div class="grid gap-6 mb-8 font-bold  md:grid-cols-2  xl:grid-cols-3">
                                             <div>
                                                 <div class="text-2xl text-gray-700 m-1 text-left">เลือกรายชื่อผู้บริจาค :</div>
                                                 <div class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                                                 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-                                                <select class="w-full js-example-basic-single" id="Sender" name="giver">
+                                                <select class="Sender w-full js-example-basic-single" name="giver">
                                                     @foreach ($giver as $i=>$givers)
                                                     <option class="text-left" value="{{$givers->member_id}}">{{$givers->name}}
                                                         {{$givers->surname}}</option>
@@ -255,7 +259,7 @@
                                             </div>
                                             <div>
                                                 <div class="text-2xl text-left font-bold text-gray-700 m-1">ชื่อสินค้า :</div>
-                                                <input name="name" type="text" autocomplete="current-password" required
+                                                <input name="name" type="text" autocomplete="current-password" 
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->name}}">
                                             </div>
@@ -277,13 +281,13 @@
                                             <div>
                                                 <div class="text-2xl text-left font-bold text-gray-700 m-1">ปริมาณ :</div>
                                                 <input name="amount" type="text" autocomplete="current-password"
-                                                    required
+                                                    
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->amount}}">
                                             </div>
                                             <div>
-                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">หน่วย :</div>
-                                                <input name="unit" type="text" autocomplete="current-password" required
+                                                <div class="text-2xl text-gray-700 font-bold  m-1">หน่วย (เช่น ห่อ,ถุง) :</div>
+                                                <input name="unit" type="text" autocomplete="current-password" 
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->unit}}">
                                             </div>
@@ -332,7 +336,7 @@
         $('#Reciever').select2();
     });
     $(document).ready(function() {
-        $('#Sender').select2();
+        $('.Sender').select2();
     });
     </script>
 @endsection

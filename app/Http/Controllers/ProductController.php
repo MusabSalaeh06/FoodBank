@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Product_type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -58,6 +59,29 @@ class ProductController extends Controller
     }
     public function check_donate(Request $request)
     {
+        //dd($request->sender);
+        $customMessage = [
+            "sender.required" => "กรุณาส่งค่า sender(ชื่อผู้ส่ง) มาด้วยน่ะครับ",
+            "reciever.required" => "กรุณาส่งค่า reciever(ชื่อผู้รับ) มาด้วยน่ะครับ",
+            "admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+        ];
+        $validator = Validator::make($request->all(), [
+            'sender' => ['required'],
+            'reciever' => ['required'],
+            'admin' => ['required'],
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
         $Basket = Basket::where('status', "ยังไม่บริจาค")->where('admin', Auth::user()->member_id)->get();
         $reciever = member::find($request->reciever);
         $sender = member::find($request->sender);
@@ -78,13 +102,35 @@ class ProductController extends Controller
     // จัดการข้อมูล PRODUCT ----------------------------------------------------------------------------------------------------------
     public function prod_store(Request $request)
     {
-        $request->validate([
-            'giver' => [''],
-            'admin' => [''],
-            'name' => [''],
-            'quantity' => [''],
-            'type' => [''],
-        ]);
+        $customMessage = [
+            "giver.required" => "กรุณาส่งค่า giver(ผู้บริจาค) มาด้วยน่ะครับ",
+            //"admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+            "name.required" => "กรุณาส่งค่า name(ชื่อสินค้า) มาด้วยน่ะครับ",
+            "amount.required" => "กรุณาส่งค่า amount(จำนวนสินค้า) มาด้วยน่ะครับ",
+            "type.required" => "กรุณาส่งค่า type(ประเภทสินค้า) มาด้วยน่ะครับ",
+            "unit.required" => "กรุณาส่งค่า unit(หน่วยของสินค้า) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'giver' => ['required'],
+            //'admin' => ['required'],
+            'name' => ['required'],
+            'amount' => ['required'],
+            'type' => ['required'],
+            'unit' => ['required'],
+        ], $customMessage);
+    
+    if ($validator->fails()) {
+        $errors = $validator->errors();
+
+        return redirect()->back()->with(
+            [
+                'status' => false,
+                'data' => [],
+                'error' => $errors->first(),
+            ], 400
+        );
+    }
 
         $post = new product;
         $post->giver = $request->input('giver');
@@ -116,14 +162,35 @@ class ProductController extends Controller
     }
     public function prod_update(Request $request, $product_id)
     {
-        $request->validate([
-            'giver' => [''],
-            'admin' => [''],
-            'name' => [''],
-            'quantity' => [''],
-            'type' => [''],
-            'date' => [''],
-        ]);
+            $customMessage = [
+                "giver.required" => "กรุณาส่งค่า giver(ผู้บริจาค) มาด้วยน่ะครับ",
+                //"admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+                "name.required" => "กรุณาส่งค่า name(ชื่อสินค้า) มาด้วยน่ะครับ",
+                "amount.required" => "กรุณาส่งค่า amount(จำนวนสินค้า) มาด้วยน่ะครับ",
+                "type.required" => "กรุณาส่งค่า type(ประเภทสินค้า) มาด้วยน่ะครับ",
+                "unit.required" => "กรุณาส่งค่า unit(หน่วยของสินค้า) มาด้วยน่ะครับ",
+            ];
+
+            $validator = Validator::make($request->all(), [
+                'giver' => ['required'],
+                //'admin' => ['required'],
+                'name' => ['required'],
+                'amount' => ['required'],
+                'type' => ['required'],
+                'unit' => ['required'],
+            ], $customMessage);
+        
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = product::find($product_id);
         $amount = $post->amount - $request->input('amount');
@@ -182,9 +249,25 @@ class ProductController extends Controller
     // จัดการข้อมูล PRODUCT_TYPE ----------------------------------------------------------------------------------------------------------
     public function prod_type_store(Request $request)
     {
-        $request->validate([
+        $customMessage = [
+            "name.required" => "กรุณาส่งค่า name(ชื่อประเภทสินค้า) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required'],
-        ]);
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = new Product_type;
         $post->name = $request->input('name');
@@ -202,9 +285,25 @@ class ProductController extends Controller
 
     public function prod_type_update(Request $request, $product_type_id)
     {
-        $request->validate([
+        $customMessage = [
+            "name.required" => "กรุณาส่งค่า name(ชื่อประเภทสินค้า) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required'],
-        ]);
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = product_type::find($product_type_id);
         $post->name = $request->input('name');
@@ -230,11 +329,29 @@ class ProductController extends Controller
     // จัดการข้อมูล DONATE ----------------------------------------------------------------------------------------------------------
     public function donate_store(Request $request)
     {
-        $request->validate([
+        $customMessage = [
+            "sender.required" => "กรุณาส่งค่า sender(ผู้ส่ง) มาด้วยน่ะครับ",
+            "reciever.required" => "กรุณาส่งค่า reciever(ผู้รับ) มาด้วยน่ะครับ",
+            "admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
             'sender' => ['required'],
             'reciever' => ['required'],
             'admin' => ['required'],
-        ]);
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = new Donate;
         $post->reciever = $request->input('reciever');
@@ -249,12 +366,29 @@ class ProductController extends Controller
     }
     public function donate_update(Request $request, $id)
     {
-        $request->validate([
-            'sender' => [''],
-            'reciever' => [''],
-            'admin' => [''],
-            'status' => [''],
-        ]);
+        $customMessage = [
+            "sender.required" => "กรุณาส่งค่า sender(ผู้ส่ง) มาด้วยน่ะครับ",
+            "reciever.required" => "กรุณาส่งค่า reciever(ผู้รับ) มาด้วยน่ะครับ",
+            "admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'sender' => ['required'],
+            'reciever' => ['required'],
+            'admin' => ['required'],
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = Donate::find($id);
         $post->sender = $request->input('sender');
@@ -285,6 +419,11 @@ class ProductController extends Controller
 
         return redirect()->back()->with('update', 'อัพเดทข้อมูลการบริจาคเรียบร้อยเเล้ว');
     }
+    public function donate_cancle($id)
+    {
+        Donate::where('id', $id)->update(array('status' => "ยกเลิกภารกิจ"));
+        return redirect()->back()->with('update', 'ยกเลิกภารกิจเรียบร้อย');
+    }
     public function donate_delete($id)
     {
         Donate::find($id)->delete();
@@ -295,12 +434,29 @@ class ProductController extends Controller
     // จัดการข้อมูล BASKET ----------------------------------------------------------------------------------------------------------
     public function basket_store(Request $request)
     {
-        $request->validate([
+        $customMessage = [
+            "product_id.required" => "กรุณาส่งค่า product_id(ไอดีสินค้า) มาด้วยน่ะครับ",
+            "quantity.required" => "กรุณาส่งค่า quantity(จำนวนที่ต้องการ) มาด้วยน่ะครับ",
+            "admin.required" => "กรุณาส่งค่า admin(เจ้าหน้าที่) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
             'product_id' => ['required'],
             'quantity' => ['required'],
             'admin' => ['required'],
-        ]);
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
 
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
 
         $post = Product::find($request->input('product_id'));
         $post->quantity = $post->quantity - $request->input('quantity');
@@ -329,6 +485,26 @@ class ProductController extends Controller
     }
     public function basket_update(Request $request, $id)
     {
+        $customMessage = [
+            "quantity.required" => "กรุณาส่งค่า quantity(จำนวนที่ต้องการ) มาด้วยน่ะครับ",
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'quantity' => ['required'],
+        ], $customMessage);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return redirect()->back()->with(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'error' => $errors->first(),
+                ], 400
+            );
+        }
+
         $basket = Basket::find($id);
         $post = Product::find($basket->product_id);
         $post->quantity = $post->quantity - $request->input('quantity');

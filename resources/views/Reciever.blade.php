@@ -48,25 +48,25 @@
                     @csrf
                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                         <div>
-                            <div class="text-2xl text-gray-700 m-1">ชื่อ * :</div>
+                            <div class="text-2xl text-gray-700 m-1">ชื่อ <div class="inline text-red-500"> * </div> : </div>
                             <input name="name" type="text" autocomplete="current-password" 
                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                 placeholder="...">
                         </div>
                         <div>
-                            <div class="text-2xl text-gray-700 m-1">นามสกุล * :</div>
+                            <div class="text-2xl text-gray-700 m-1">นามสกุล <div class="inline text-red-500"> * </div> : </div>
                             <input name="surname" type="text" autocomplete="current-password" 
                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                 placeholder="...">
                         </div>
                         <div>
                             <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
-                                บัตรประจำตัวประชาชน * :</div>
+                                บัตรประจำตัวประชาชน <div class="inline text-red-500"> * </div> : </div>
                             <input name="card_id" type="text" placeholder="..." 
                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl">
                         </div>
                         <div>
-                            <div class="text-2xl text-gray-700 m-1">เบอร์โทรศัพท์ * :</div>
+                            <div class="text-2xl text-gray-700 m-1">เบอร์โทรศัพท์ <div class="inline text-red-500"> * </div> : </div>
                             <input name="tel" type="text" autocomplete="current-password" 
                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                 placeholder="...">
@@ -79,7 +79,7 @@
                         </div>
                         <input name="type" type="hidden" autocomplete="current-password" 
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
-                            value="recievers">
+                            value="reciever">
                         <div>
                             <div class="text-2xl text-gray-700 m-1">เขต :</div>
                             <input name="county" type="text" autocomplete="current-password" 
@@ -220,7 +220,11 @@
                     @endif
                 </td>
                 <td class="py-4 px-6">
-                    {{$rows->email}}
+                    @if ($rows->email == null)   
+                    ไม่ระบุ                 
+                    @else
+                    {{$rows->email}}    
+                    @endif
                 </td>
                 <td class="py-4 px-6 text-right">
                     <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
@@ -241,29 +245,28 @@
                                     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
                                         {{-- --}}
                                         <div>
-                                            <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">ชื่อ *
-                                                :</div>
+                                            <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">ชื่อ <div class="inline text-red-500"> * </div> : </div>
                                             <input name="name" type="text" 
                                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                 value="{{$rows->name}}">
                                         </div>
                                         <div>
                                             <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
-                                                นามสกุล * :</div>
+                                                นามสกุล <div class="inline text-red-500"> * </div> : </div>
                                             <input name="surname" type="text" 
                                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                 value="{{$rows->surname}}">
                                         </div>
                                         <div>
                                             <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
-                                                บัตรประจำตัวประชาชน * :</div>
+                                                บัตรประจำตัวประชาชน <div class="inline text-red-500"> * </div> : </div>
                                             <input name="card_id" type="text" 
                                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                 value="{{$rows->card_id ??null}}">
                                         </div>
                                         <div>
                                             <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
-                                                เบอร์โทรศัพท์ * :</div>
+                                                เบอร์โทรศัพท์ <div class="inline text-red-500"> * </div> : </div>
                                             <input name="tel" type="text" 
                                                 class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                 value="{{$rows->tel}}">

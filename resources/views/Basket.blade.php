@@ -168,8 +168,8 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                             <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
                             
-                            <select class="w-full js-example-basic-single" id="Sender" name="sender">
-                                <option>เลือกรายชื่อผู้จัดส่ง</option>
+                            <select class="w-full js-example-basic-single" id="Sender" name="sender" >
+                                <option value="">เลือกรายชื่อผู้จัดส่ง</option>
                                 @foreach ($sender as $i=>$senders)
                                 <option value="{{$senders->member_id}}">{{$senders->name}} {{$senders->surname}} || สถานะ : {{$senders->status}} || <br>
                                 ที่อยู่ : 
@@ -207,8 +207,8 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                             <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
                             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
                             
-                            <select class="w-full js-example-basic-single" id="Reciever" name="reciever">
-                                <option>เลือกรายชื่อผู้รับ</option>
+                            <select class="w-full js-example-basic-single" id="Reciever" name="reciever" >
+                                <option value="">เลือกรายชื่อผู้รับ</option>
                                 @foreach ($reciever as $i=>$recievers)
                                 <option value="{{$recievers->member_id}}">{{$recievers->name}} {{$recievers->surname}} || <br>
                                 ที่อยู่ : 
@@ -228,7 +228,7 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
             </tbody>
         </table>
     </div>
-<input type="hidden" name="admin" value="{{Auth::user()->member_id}}" required>
+<input type="hidden" name="admin" value="{{Auth::user()->member_id}}">
 
 
 <button type="sumbit" class="bg-green-500 text-white active:bg-pink-500 font-bold uppercase text-2xl px-6 py-3 mx-10 mb-5

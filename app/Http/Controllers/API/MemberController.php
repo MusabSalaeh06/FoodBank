@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
-    public function profile()
+    public function profile(Request $request)
     {
-        $profile = member::find('1');
+        
+        $profile = member::find($request->member_id);
         return response()->json(
             [
                 'status' => true,
@@ -29,15 +30,17 @@ class MemberController extends Controller
         );
     }
 
-    public function mission_report()
+    public function mission_report(Request $request)
     {
-        $new_mission = Donate::where('sender', "6")->where('status', "รอการตอบรับ")->get()->count();
-        $mission_cancle = Donate::where('sender', "6")->where('status', "ยกเลิกภารกิจ")->get()->count();
-        $mission_submit = Donate::where('sender', "6")->where('status', "ตอบรับ")->get()->count();
-        $mission_reject = Donate::where('sender', "6")->where('status', "ปฏิเสธ")->get()->count();
-        $mission_complete = Donate::where('sender', "6")->where('status', "ส่งสำเร็จ")->get()->count();
-        $mission_fail = Donate::where('sender', "6")->where('status', "ส่งคืนสินค้า")->get()->count();
-        $mission_all = Donate::where('sender', "6")->get()->count();
+        //dd($request->all());
+        $sender = $request->member_id;
+        $new_mission = Donate::where('sender',  $sender)->where('status', "รอการตอบรับ")->get()->count();
+        $mission_cancle = Donate::where('sender',  $sender)->where('status', "ยกเลิกภารกิจ")->get()->count();
+        $mission_submit = Donate::where('sender',  $sender)->where('status', "ตอบรับ")->get()->count();
+        $mission_reject = Donate::where('sender',  $sender)->where('status', "ปฏิเสธ")->get()->count();
+        $mission_complete = Donate::where('sender',  $sender)->where('status', "ส่งสำเร็จ")->get()->count();
+        $mission_fail = Donate::where('sender',  $sender)->where('status', "ส่งคืนสินค้า")->get()->count();
+        $mission_all = Donate::where('sender',  $sender)->get()->count();
 
         return response()->json(
             [
@@ -54,9 +57,10 @@ class MemberController extends Controller
                 'message' => "รายงานข้อมูลภารกิจ (mission_report)",
             ], 200);
     }
-    public function mission_all()
+    public function mission_all(Request $request)
     {
-        $mission_all = Donate::where('sender', "6")->get();
+        $sender = $request->member_id;
+        $mission_all = Donate::where('sender', $sender)->get();
         return response()->json(
             [
                 'status' => true,
@@ -64,9 +68,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจทั้งหมด (mission_all)",
             ], 200);
     }
-    public function new_mission()
+    public function new_mission(Request $request)
     {
-        $new_mission = Donate::where('sender', "6")->where('status', "รอการตอบรับ")->get();
+        $sender = $request->member_id;
+        $new_mission = Donate::where('sender', "$sender")->where('status', "รอการตอบรับ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -74,9 +79,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจใหม่ (new_mission)",
             ], 200);
     }
-    public function mission_cancle()
+    public function mission_cancle(Request $request)
     {
-        $mission_cancle = Donate::where('sender', "6")->where('status', "ยกเลิกภารกิจ")->get();
+        $sender = $request->member_id;
+        $mission_cancle = Donate::where('sender', $sender)->where('status', "ยกเลิกภารกิจ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -84,9 +90,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจที่ถูกยกเลิก (mission_cancle)",
             ], 200);
     }
-    public function mission_submit()
+    public function mission_submit(Request $request)
     {
-        $mission_submit = Donate::where('sender', "6")->where('status', "ตอบรับ")->get();
+        $sender = $request->member_id;
+        $mission_submit = Donate::where('sender', $sender)->where('status', "ตอบรับ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -94,9 +101,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจที่ตอบรับเเล้วเเละกำลังทำ (mission_submit)",
             ], 200);
     }
-    public function mission_reject()
+    public function mission_reject(Request $request)
     {
-        $mission_reject = Donate::where('sender', "6")->where('status', "ปฏิเสธ")->get();
+        $sender = $request->member_id;
+        $mission_reject = Donate::where('sender', $sender)->where('status', "ปฏิเสธ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -104,9 +112,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจที่ปฏิเสธ (mission_reject)",
             ], 200);
     }
-    public function mission_fail()
+    public function mission_fail(Request $request)
     {
-        $mission_fail = Donate::where('sender', "6")->where('status', "ส่งคืนสินค้า")->get();
+        $sender = $request->member_id;
+        $mission_fail = Donate::where('sender', $sender)->where('status', "ส่งคืนสินค้า")->get();
         return response()->json(
             [
                 'status' => true,
@@ -114,9 +123,10 @@ class MemberController extends Controller
                 'message' => "ภารกิจที่ล้มเหลวหรือส่งคืนสินค้า (mission_fail)",
             ], 200);
     }
-    public function mission_complete()
+    public function mission_complete(Request $request)
     {
-        $mission_complete = Donate::where('sender', "6")->where('status', "ส่งสำเร็จ")->get();
+        $sender = $request->member_id;
+        $mission_complete = Donate::where('sender', $sender)->where('status', "ส่งสำเร็จ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -124,15 +134,15 @@ class MemberController extends Controller
                 'message' => "ภารกิจที่ส่งสำเร็จ (mission_complete)",
             ], 200);
     }
-    public function mission_detail($id)
+    public function mission_detail(Request $request)
     {
-        $mission = Donate::find($id);
+        $mission = Donate::find($request->id);
         if (empty($mission)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล id : {$id} นี้ ",
+                    'message' => "ไม่พบข้อมูล id : {$request->id} นี้ ",
                 ], 200
             );
         }
@@ -140,20 +150,53 @@ class MemberController extends Controller
                 [
                     'status' => true,
                     'data' => MissionDetailResource::make($mission),
-                    'message' => "ข้อมูลรายละเอียดภารกิจ id : {$id}  ",
+                    'message' => "ข้อมูลรายละเอียดภารกิจ id : {$request->id}  ",
                 ], 200);
     }
-    public function mission_basket_detail($id)
+    public function mission_basket_detail(Request $request)
     {
-        $basket = basket::where('donate_id', $id)->get();
+        $basket = basket::where('donate_id',$request->id)->get();
         return response()->json(
             [
                 'status' => true,
                 'data' => BasketResource::collection($basket),
-                'message' => "ข้อมูลรายละเอียดสินค้าที่บริจาคของภารกิจ id : {$id}  ",
+                'message' => "ข้อมูลรายละเอียดสินค้าที่บริจาคของภารกิจ id : {$request->id}  ",
             ], 200);
     }
-    public function mission_update(Request $request, $id)
+    public function update_status_sender(Request $request)
+    {
+        $customMessage = [
+            "status.required" => "กรุณาส่งข้อมูลสถานะมาด้วยน่ะครับ",
+            "status.in" => "กรุณาส่งข้อมูลสถานะเป็น online,offline",
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:online,offline',
+        ], $customMessage);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return response()->json(
+                [
+                    'status' => false,
+                    'data' => [],
+                    'message' => $errors->first(),
+                ], 400
+            );
+        }
+
+        $member = member::find($request->member_id);
+        $member->status = $request->input('status');
+        $member->save();
+        return response()->json(
+            [
+                'status' => true,
+                'data' => [],
+                'message' => "อัพเดตสถานะการทำงานของผู้ส่งเรียบร้อย",
+            ], 200);
+    }
+    public function mission_update(Request $request)
     {
         if ($request->status == "ส่งสำเร็จ") {
             $customMessage = [
@@ -189,14 +232,14 @@ class MemberController extends Controller
             );
         }
 
-        $post = Donate::find($id);
+        $post = Donate::find($request->id);
 
         if (empty($post)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล id : {$id} นี้ ",
+                    'message' => "ไม่พบข้อมูล id : {$request->id} นี้ ",
                 ], 200
             );
         }
@@ -210,10 +253,10 @@ class MemberController extends Controller
             $post->image = $filename;
         }
         $post->save();
-        Basket::where('donate_id', $id)->update(array('status' => $request->input('status')));
+        Basket::where('donate_id', $request->id)->update(array('status' => $request->input('status')));
         if ($request->input('status') == "ส่งสำเร็จ") {
         } elseif ($request->input('status') == "ส่งคืนสินค้า") {
-            $basket = Basket::where('donate_id', $id)->get();
+            $basket = Basket::where('donate_id', $request->id)->get();
             foreach ($basket as $data) {
                 $product = product::find($data->product_id);
                 $product->quantity = $product->quantity + $data->quantity;
@@ -226,7 +269,7 @@ class MemberController extends Controller
                 }
             }
         } elseif ($request->input('status') == "ปฏิเสธ") {
-            $basket = Basket::where('donate_id', $id)->get();
+            $basket = Basket::where('donate_id', $request->id)->get();
             foreach ($basket as $data) {
                 $product = product::find($data->product_id);
                 $product->quantity = $product->quantity + $data->quantity;
@@ -248,7 +291,7 @@ class MemberController extends Controller
         );
 
     }
-    public function update_profile(Request $request, $member_id)
+    public function update_profile(Request $request)
     {
         $customMessage = [
             "profile.required" => "กรุณาส่งส่งรูปโปรไฟล์มาด้วยน่ะครับ",
@@ -270,13 +313,13 @@ class MemberController extends Controller
             );
         }
 
-        $member = member::find($member_id);
+        $member = member::find($request->member_id);
         if (empty($member)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล member_id : {$member_id} นี้ ",
+                    'message' => "ไม่พบข้อมูล member_id : {$request->member_id} นี้ ",
                 ], 200
             );
         }
@@ -297,7 +340,7 @@ class MemberController extends Controller
             ], 200
         );
     }
-    public function update_password(Request $request, $member_id)
+    public function update_password(Request $request)
     {
 
         $customMessage = [
@@ -322,13 +365,13 @@ class MemberController extends Controller
                 ], 400
             );
         }
-        $member = member::find($member_id);
+        $member = member::find($request->member_id);
         if (empty($member)) {
             return response()->json(
                 [
                     'status' => false,
                     'data' => [],
-                    'message' => "ไม่พบข้อมูล member_id : {$member_id} นี้ ",
+                    'message' => "ไม่พบข้อมูล member_id : {$request->member_id} นี้ ",
                 ], 200
             );
         }

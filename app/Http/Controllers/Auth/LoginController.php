@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\member;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -26,6 +27,9 @@ class LoginController extends Controller
     use AuthenticatesUsers;
     public function logout(Request $request)
     {
+        //member::where('remember_token', 'EZrkJ7Pph5BWNbbFmBw1KoGc5R7i5uYggbyySlq77HTzKrOjicRlERLqPtPv')->update(array('remember_token' => null));
+        //$member = member::find(1);
+        //dd($member);
         Auth::logout();
 
         $request->session()->invalidate();
@@ -52,12 +56,10 @@ class LoginController extends Controller
         $this->middleware('guest:member')->except('logout');
     }
     public function login(Request $request){
-       // dd($request);
         $this->validate($request, [
             'tel' => 'required',
             'password' => 'required'
         ]);
-        //dd($request->password);
             if (Auth::guard('member')->attempt(['tel'=>$request->tel,'password'=>$request->password],
             //$request->get('remember')
             )){

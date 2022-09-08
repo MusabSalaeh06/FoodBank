@@ -78,9 +78,6 @@
     </table>
 </div>
 
-@if ($co_basket == null)
-    
-@else
 <div
 class="flex mx-10 mb-3 items-center justify-between p-3 my-3 text-2xl font-semibold text-white bg-gray-400 rounded-lg 
 shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">
@@ -88,6 +85,9 @@ shadow-md focus:outline-none focus:shadow-outline-purple" style="background-colo
     <span>ข้อมูลการบริจาค</span>
 </div>
 </div>
+@if ($co_basket == null)
+    
+@else
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">

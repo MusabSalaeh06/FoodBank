@@ -15,6 +15,9 @@
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A" >
             <tr>
                 <th scope="col" class="py-3 px-6">
+                    ลำดับ
+                </th>
+                <th scope="col" class="py-3 px-6">
                     <span class="sr-only">รูปภาพ</span>
                 </th>
                 <th scope="col" class="py-3 px-6">
@@ -32,6 +35,23 @@
             @foreach ($basket as $i=>$rows)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="py-4 px-6">
+                    {{$i+1}}
+                </td>
+                @if ($rows->product == null)
+                <td class="py-4 px-6">
+                    ข้อมูลถูกลบ
+                </td>
+                <td class="py-4 px-6">
+                    ข้อมูลถูกลบ
+                </td>
+                <td class="py-4 px-6">
+                    {{$rows->quantity ??null}} 
+                </td>
+                <td class="py-4 px-6">
+                    ข้อมูลถูกลบ
+                </td>
+                @else
+                <td class="py-4 px-6">
                     <img class="m-2" src="/storage/product/product_image_assets/{{$rows->product->product_image}}" width="100px" height="100px">
                     {{-- <img class="m-2" src="{{asset($rows->product_image)}}" width="100px" height="100px"> --}}
                 </td>
@@ -44,13 +64,14 @@
                 <td class="py-4 px-6">
                     {{$rows->product->givers->name ??null}} {{$rows->product->givers->surname ??null}}
                 </td>
+                @endif
                 </tr>
                 @endforeach
         </tbody>
     </table>
 </div>
 
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
+{{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
@@ -80,7 +101,7 @@
             </tr>
         </tbody>
     </table>
-</div>
+</div> --}}
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg mx-10 mt-3">
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">

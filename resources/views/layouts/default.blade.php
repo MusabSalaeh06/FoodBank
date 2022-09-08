@@ -99,6 +99,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
 
+      <!-- Favicons -->
+    <link href="{{ asset('storage/logo.png')}}" rel="icon">
+    <link href="{{ asset('storage/logo.png')}}" rel="apple-touch-icon">
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -116,13 +120,13 @@
 <body>
 
 
-    <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653">
-        <div class="flex items-center flex-no-shrink text-white mr-3">
-              <img src="/storage/logo.png" width="100px" height="100px">
-            <span class="inline font-semibold text-3xl tracking-tight">
-              Foodbank
-            </span>
-        </div>
+    <nav class="flex items-center justify-between flex-wrap px-6 py-3 shadow-md rounded-sm" style="background-color: #264653"> 
+      <div class="flex items-center flex-no-shrink text-white mr-3">
+        <img src="/storage/logo-1.png" width="100px" height="100px">
+      <span class="inline font-semibold text-3xl tracking-tight">
+        <img src="/storage/logo-2.png" width="100px" height="100px">
+      </span>
+  </div>
         <div class="block lg:hidden">
           <button data-toggle-hide="[data-nav-content]" class="
               flex items-center px-3 py-2 border rounded 
@@ -214,6 +218,10 @@
                 hover:text-white mr-4 rounded focus:outline-none 
                 focus:shadow-outline
               ">
+              <a href="{{route('Dashboard')}}">
+                <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
+                type="button"><box-icon name='home' ></box-icon></button>
+              </a>
               @if (Auth::user()->type == "sender")
               <div class="text-white  text-center inline-flex items-center text-2xl">
                 {{Auth::user()->name}} {{Auth::user()->surname}} || สถานะ : {{Auth::user()->status}} 
@@ -268,10 +276,6 @@
                 </div>
               </div>  
               @elseif (Auth::user()->type == "admin")
-              <a href="{{route('Dashboard')}}">
-                <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
-                type="button"><box-icon name='home' ></box-icon></button>
-              </a>
               <a href="{{route('products')}}">
                 <button class="bg-white font-bold text-xl px-6 py-3 mr-1 mb-1 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group"
                 type="button"><box-icon name='store-alt' ></box-icon></button>

@@ -14,6 +14,7 @@ class ProfileResource extends JsonResource
      */
     public function toArray($request)
     {
+        if($this->profile == null){
         return [
             'member_id' => $this->member_id,
             'name' => $this->name,
@@ -24,7 +25,25 @@ class ProfileResource extends JsonResource
                                 "อำเภอ :".$this->district." "."จังหวัด :"." ".$this->province." ".
                                 "รหัสไปรษณีย์ :"." ".$this->ZIP_code,
             'password' => $this->pass,
-            'product_image' => asset('/storage/member/profile_image_assets/'.$this->profile),
+            'type' => $this->type,
+            'status' => $this->status,
+            'profile_image' => asset('/storage/no_image.png'),
         ];
+        }else{
+        return [
+            'member_id' => $this->member_id,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'address' => "เขต :"." ".$this->county." "."ถนน :"." ".$this->road." ".
+                                "ตรอก/ซอย :"." ".$this->alley." "."บ้านเลขที่ :"." ".$this->house_number." ".
+                                "หมู่ :"." ".$this->group_no." "."ตำบล :"." ".$this->sub_district." ".
+                                "อำเภอ :".$this->district." "."จังหวัด :"." ".$this->province." ".
+                                "รหัสไปรษณีย์ :"." ".$this->ZIP_code,
+            'password' => $this->pass,
+            'type' => $this->type,
+            'status' => $this->status,
+            'profile_image' => asset('/storage/member/profile_image_assets/'.$this->profile),
+        ];
+        }
     }
 }

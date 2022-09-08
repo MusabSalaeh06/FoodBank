@@ -130,13 +130,11 @@ class MemberController extends Controller
     }
     public function update(Request $request, $member_id)
     {
-        if (!empty($request->input('tel'))) {
             $member = Member::find($member_id);
             if ($member->tel == $request->input('tel')) {
                 $member->tel = '';
                 $member->save();
             }
-        }
 
         $customMessage = [
             "name.required" => "กรุณาส่งค่า name(ชื่อ) มาด้วยน่ะครับ",
@@ -160,8 +158,11 @@ class MemberController extends Controller
 
         if ($validator->fails()) {
             $member = Member::find($member_id);
-            $member->tel = $request->input('tel');
-            $member->save();
+            if ($member->tel == '') {
+                $member->tel = $request->input('tel');
+                $member->save();
+            }
+
             $errors = $validator->errors();
 
             return redirect()->back()->with(

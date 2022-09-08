@@ -49,6 +49,7 @@ Route::delete('/product_type/delete/{product_type_id}', [App\Http\Controllers\Pr
 Route::get('/donate/show', [App\Http\Controllers\ProductController::class, 'donate_show'])->name('donate.show');
 Route::post('/donate/store', [App\Http\Controllers\ProductController::class, 'donate_store'])->name('donate.store');
 Route::put('/donate/update/{id}', [App\Http\Controllers\ProductController::class, 'donate_update'])->name('donate.update');
+Route::get('/donate/cancle/{id}', [App\Http\Controllers\ProductController::class, 'donate_cancle'])->name('donate.cancle');
 Route::delete('/donate/delete/{id}', [App\Http\Controllers\ProductController::class, 'donate_delete'])->name('donate.delete');
 
 Route::get('/basket/show', [App\Http\Controllers\ProductController::class, 'basket_show'])->name('basket.show');

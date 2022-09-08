@@ -15,10 +15,11 @@ class CreateBasketsTable extends Migration
     {
         Schema::create('baskets', function (Blueprint $table) {
             $table->id('id');
-            $table->string('product_id');
-            $table->string('quantity');
-            $table->string('status');
-            $table->string('admin');
+            $table->string('donate_id');
+            $table->string('product_id')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('status')->nullable();
+            $table->string('admin')->nullable();
             $table->timestamps();
         });
     }
