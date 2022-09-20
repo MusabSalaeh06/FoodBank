@@ -49,18 +49,20 @@
         เปลี่ยนรหัสผ่าน
     </label>
     <input type="checkbox" id="edit-password" class="modal-toggle" />
-    <div class="modal"> 
-        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">         
+    
+    <div class="modal overflow-scroll">
+        <div class="modal-box">
+        <div class="mx-2 bg-white rounded-lg shadow-md">       
             <div class="bg-indigo-500 rounded-sm font-bold text-white text-left p-3 text-3xl ">
                 เปลี่ยนรหัสผ่าน
             </div>
             <div class="w-full p-5">
-                <form class="mt-8 space-y-6" action="{{ route('update.mypassword',Auth::user()->member_id)}}" method="POST"
+                <form  action="{{ route('update.mypassword',Auth::user()->member_id)}}" method="POST"
                     enctype="multipart/form-data">
                     {{ csrf_field()}}
                     {{ method_field('PUT') }}
                     @csrf
-                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                         <div>
                             <div class="text-2xl text-left font-bold text-gray-700 m-1">รหัสผ่านเก่า :</div>
                             <input name="password" type="password" autocomplete="current-password" 
@@ -92,6 +94,7 @@
                 class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
         
             </div>
+            </div>
     </div>
         </div>
     </div>
@@ -101,18 +104,19 @@
         เปลี่ยนโปรไฟล์
     </label>
     <input type="checkbox" id="edit-profile" class="modal-toggle" />
-    <div class="modal"> 
-        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">         
+    <div class="modal overflow-scroll">
+        <div class="modal-box">
+        <div class="mx-2 bg-white rounded-lg shadow-md">        
             <div class="bg-indigo-500 rounded-sm font-bold text-white text-left p-3 text-3xl ">
                 เปลี่ยนโปรไฟล์
             </div>
             <div class="w-full p-5">
-                <form class="mt-8 space-y-6" action="{{ route('update.myprofile',Auth::user()->member_id)}}" method="POST"
+                <form  action="{{ route('update.myprofile',Auth::user()->member_id)}}" method="POST"
                     enctype="multipart/form-data">
                     {{ csrf_field()}}
                     {{ method_field('PUT') }}
                     @csrf
-                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                         <div>
                             <div class="text-2xl text-left font-bold text-gray-700 m-1">รูปภาพโปรไฟล์ :</div>
                             <input name="profile" type="file" autocomplete="current-password" 
@@ -131,6 +135,7 @@
             <label for="edit-profile"
                 class="bg-red-500 text-white active:bg-pink-500 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">ปิด</label>
         
+            </div>
             </div>
     </div>
         </div>

@@ -36,7 +36,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
     /**
      * Where to redirect users after login.
@@ -63,6 +63,12 @@ class LoginController extends Controller
             if (Auth::guard('member')->attempt(['tel'=>$request->tel,'password'=>$request->password],
             //$request->get('remember')
             )){
+				if(Auth::guard('member')->user()->type == 'giver'){
+                return redirect('/my/donate');
+				}
+				elseif(Auth::guard('member')->user()->type == 'sender'){
+                return redirect('/my/mission');
+				}
                 return redirect()->route('Dashboard');
             }
             else {

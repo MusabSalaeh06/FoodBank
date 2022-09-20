@@ -41,44 +41,49 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only">รูปภาพ</span>
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ประเภทสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ปริมาณ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only" width="5%">แก้ไข</span>
                 </th>
-                <th scope="col" class="py-3 px-6" width="5%">
-                    <span class="sr-only">ลบ</span>
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
+                    <span class="sr-only" width="5%">ลบ</span>
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach ($Basket as $i=>$rows)
             <tr class="bg-white text-2xl border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
-                    <img class="m-2" src="/storage/product/product_image_assets/{{$rows->product->product_image}}" width="100px" height="100px">
-                    {{-- <img class="m-2" src="{{asset($rows->product_image)}}" width="100px" height="100px"> --}}
+                @if ($rows->product->product_image == null)
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                 </td>
-                <td class="py-4 px-6">
+                @else
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
+                    <img class="m-2" src="/storage/product/product_image_assets/{{$rows->product->product_image}}" width="100px" height="100px">
+                    {{-- <img class="m-2" src="{{asset($rows->product->product_image)}}" width="100px" height="100px"> --}}
+                </td>
+                @endif
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->product->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->product->types->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->quantity}} {{$rows->product->unit}}
-                </td> 
-                <td class="py-4 px-6 text-right">
-                    <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
+                </td>
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right ">
+                    <a href="#" class="font-bold text-gray-500 hover:text-blue-500"> <label
                         for="edit-basket-{{$rows->id}}">แก้ไข</label></a>
                     <input type="checkbox" id="edit-basket-{{$rows->id}}" class="modal-toggle" />
                     <div class="modal">
@@ -86,9 +91,6 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                             <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
                                 <div class="max-w-md w-full space-y-8">
                                     <div>
-                                        <img class="mx-auto h-12 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                            alt="Workflow">
                                         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                                             แก้ไขข้อมูลสินค้า</h2>
                                     </div>
@@ -97,8 +99,23 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                                         {{ csrf_field()}}
                                         {{ method_field('PUT') }}
                                         @csrf
-                                        <div class="rounded-md shadow-sm -space-y-px">
+                                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                                             <div>
+                                                <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
+                                                    ชื่อสินค้า <div class="inline text-red-500"> * </div> : </div>
+                                                    <input type="text" autocomplete="current-password" required readonly
+                                                    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                                    value="{{$rows->product->name}}">
+                                            </div>
+                                            <div>
+                                                <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">
+                                                    จำนวนสินค้า <div class="inline text-red-500"> * </div> : </div>
+                                                    <input name="quantity" type="text" autocomplete="current-password"
+                                                        required
+                                                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
+                                                        value="{{$rows->quantity}}">
+                                            </div>
+                                            {{-- <div>
                                                 <input type="text" autocomplete="current-password" required readonly
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->product->name}}">
@@ -108,7 +125,7 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                                                     required
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->quantity}}">
-                                            </div>
+                                            </div> --}}
                                             <div>
                                                 <input name="admin" type="hidden" autocomplete="current-password" required
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
@@ -135,11 +152,11 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
                         </div>
                     </div>
                 </td>
-                <td class="py-4 px-6 text-right">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right ">
                     <form action="{{route('basket.delete',$rows->id)}}" class="nav-link dropdown" method="POST">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="font-medium text-gray-500 hover:text-blue-500"
+                        <button type="submit" class="font-bold text-gray-500 hover:text-blue-500"
                             onclick="return confirm('คุณต้องการลบสินค้าที่ชื่อ {{$rows->product->name}}หรือไม่?')">
                             ลบ</button>
                     </form>

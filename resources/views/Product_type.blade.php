@@ -38,17 +38,19 @@
         เพิ่มข้อมูล
     </label>
     <input type="checkbox" id="add-product-type" class="modal-toggle" />
-    <div class="modal"> 
-        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">
+    
+    <div class="modal overflow-scroll">
+        <div class="modal-box">
+        <div class="mx-2 bg-white rounded-lg shadow-md">
                     <div class="bg-indigo-500 rounded-sm text-white p-3 text-3xl ">
                         เพิ่มข้อมูลประเภทสินค้า
                     </div>
             <div class="w-full p-5">
                     <form class="mt-8 space-y-6" action="{{ route('prod_type.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                             <div>
-                                <div class="text-2xl text-gray-700 m-1">ชื่อประเภทสินค้า :</div>
+                                <div class="text-2xl text-gray-700 m-1">ชื่อประเภทสินค้า <div class="inline text-red-500"> * </div> :</div>
                                 <input name="name" type="text" autocomplete="current-password" 
                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                     placeholder="...">
@@ -78,6 +80,7 @@
                             </div>
                         </div>
                     </form>
+            </div>
                 </div>
             </div>
         </div>
@@ -88,52 +91,56 @@
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ลำดับ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only" width="20%" >รูปภาพ</span>
                 </th>
-                <th scope="col" class="py-3 px-6" >
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อประเภทสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6" width="50%">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     คำอธิบาย
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only" width="5%">แก้ไข</span>
                 </th>
-                <th scope="col" class="py-3 px-6"width="5%">
-                    <span class="sr-only">ลบ</span>
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
+                    <span class="sr-only" width="5%">ลบ</span>
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach ($product_type as $i=>$rows)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$i+1}}
                 </td>
                 @if ($rows->image == null)
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
+                </td>
                 @else
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     <img class="m-2" src="/storage/product_type/product_type_image_assets/{{$rows->image}}" width="100px"
                         height="100px">
                 </td>
                 @endif
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->description}}
                 </td>
-                <td class="py-4 px-6 text-right">
-                    <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> 
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right">
+                    <a href="#" class="font-bold text-gray-500 hover:text-blue-500"> 
                         <label for="edit-product-type-{{$rows->product_type_id}}">แก้ไข</label>
                     </a>
                     <input type="checkbox" id="edit-product-type-{{$rows->product_type_id}}" class="modal-toggle" />
-                    <div class="modal"> 
-                        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">
+                    
+                    <div class="modal overflow-scroll">
+                        <div class="modal-box">
+                        <div class="mx-2 bg-white rounded-lg shadow-md">
                                     <div class="bg-indigo-500 rounded-sm text-white p-3 text-3xl text-left font-bold ">
                                         แก้ไขข้อมูลประเภทสินค้า
                                     </div>
@@ -143,9 +150,9 @@
                                         {{ csrf_field()}}
                                         {{ method_field('PUT') }}
                                         @csrf
-                                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                                        <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                                             <div>
-                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ชื่อประเภทสินค้า :</div>
+                                                <div class="text-2xl text-left font-bold text-gray-700 m-1">ชื่อประเภทสินค้า <div class="inline text-red-500"> * </div> :</div>
                                                 <input name="name" type="text" 
                                                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xl"
                                                     value="{{$rows->name}}">
@@ -176,15 +183,16 @@
                                         </div>
                                     </form>
                                 </div>
+                        </div>
                             </div>
 
                     </div>
                 </td>
-                <td class="py-4 px-6 text-right">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right">
                     <form action="{{route('prod_type.delete',$rows->product_type_id)}}" class="nav-link dropdown" method="POST">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="font-medium text-gray-500 hover:text-blue-500"
+                        <button type="submit" class="font-bold text-gray-500 hover:text-blue-500"
                         onclick="return confirm('คุณต้องการลบสมาชิกที่ชื่อ {{$rows->name}}หรือไม่?')">
                         ลบ</button>
                     </form>

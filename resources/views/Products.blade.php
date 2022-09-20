@@ -25,7 +25,6 @@
     <h5>{{ session('delete') }}</h5>
 </div>
 @endif
-
 <div
     class="flex mx-10 mb-3 items-center justify-between p-3 mb-3 text-2xl font-semibold text-white rounded-lg 
     shadow-md focus:outline-none focus:shadow-outline-purple" style="background-color: #F4A261">

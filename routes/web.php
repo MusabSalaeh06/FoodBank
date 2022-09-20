@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/welcome', function () {
     return view('welcome');
 });
+Route::get('/', [App\Http\Controllers\MemberController::class, 'index'])->name('index');
 
 Auth::routes();
 
@@ -14,7 +15,7 @@ Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout
 
 Route::group(['middleware' => 'auth:member'], function () {
 
-Route::get('/', [App\Http\Controllers\MemberController::class, 'Dashboard'])->name('Dashboard');
+Route::get('/dashboard', [App\Http\Controllers\MemberController::class, 'Dashboard'])->name('Dashboard');
 
 Route::get('/my-profile', [App\Http\Controllers\MemberController::class, 'my_profile'])->name('my.profile');
 

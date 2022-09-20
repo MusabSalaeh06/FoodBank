@@ -38,15 +38,17 @@
         เพิ่มข้อมูล
     </label>
     <input type="checkbox" id="add-reciever" class="modal-toggle" />
-    <div class="modal">
-        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">
+
+    <div class="modal overflow-scroll">
+        <div class="modal-box">
+        <div class="mx-2 bg-white rounded-lg shadow-md">
             <div class="bg-indigo-500 rounded-sm text-white p-3 text-3xl ">
                 เพิ่มข้อมูลผู้รับบริจาค
             </div>
             <div class="w-full p-5">
-                <form class="mt-8 space-y-6" action="{{ route('member.store') }}" method="POST">
+                <form action="{{ route('member.store') }}" method="POST">
                     @csrf
-                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                         <div>
                             <div class="text-2xl text-gray-700 m-1">ชื่อ <div class="inline text-red-500"> * </div> : </div>
                             <input name="name" type="text" autocomplete="current-password" 
@@ -149,6 +151,7 @@
                     </div>
                 </form>
             </div>
+            </div>
         </div>
 
 
@@ -160,45 +163,45 @@
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ลำดับ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อ-นามสกุล
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     เบอร์โทรศัพท์
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     บทบาท
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ที่อยู่
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     อีเมล
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only" width="5%">แก้ไข</span>
                 </th>
-                <th scope="col" class="py-3 px-6" width="5%">
-                    <span class="sr-only">ลบ</span>
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
+                    <span class="sr-only" width="5%">ลบ</span>
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach ($reciever as $i=>$rows)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$i+1}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->name}} {{$rows->surname}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->tel}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     @if ( $rows->type == "giver")
                     ผู้บริจาค
                     @elseif ( $rows->type == "reciever")
@@ -209,7 +212,7 @@
                     อื่นๆ
                     @endif
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     @if ($rows->sub_district == null)
                         ไม่ระบุ                        
                     @else
@@ -219,30 +222,31 @@
                     ไปรษณีย์ {{$rows->ZIP_code}}
                     @endif
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     @if ($rows->email == null)   
                     ไม่ระบุ                 
                     @else
                     {{$rows->email}}    
                     @endif
                 </td>
-                <td class="py-4 px-6 text-right">
-                    <a href="#" class="font-medium text-gray-500 hover:text-blue-500"> <label
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right">
+                    <a href="#" class="font-bold text-gray-500 hover:text-blue-500"> <label
                             for="edit-reciever-{{$rows->member_id}}">แก้ไข</label></a>
                     <input type="checkbox" id="edit-reciever-{{$rows->member_id}}" class="modal-toggle" />
-                    <div class="modal">
-                        <div class="w-screen mx-32 bg-white rounded-lg shadow-md">
+                    <div class="modal overflow-scroll">
+                        <div class="modal-box">
+                        <div class="mx-2 bg-white rounded-lg shadow-md">
                             <div
                                 class="bg-indigo-500 rounded-sm text-white p-3 text-3xl font-bold text-white text-left ">
                                 แก้ไขข้อมูลผู้รับบริจาค
                             </div>
                             <div class="w-full p-5">
-                                <form class="mt-8 space-y-6" action="{{ route('member.update',$rows->member_id)}}"
+                                <form  action="{{ route('member.update',$rows->member_id)}}"
                                     method="POST" enctype="multipart/form-data">
                                     {{ csrf_field()}}
                                     {{ method_field('PUT') }}
                                     @csrf
-                                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                                    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-1">
                                         {{-- --}}
                                         <div>
                                             <div class="text-2xl text-gray-700 m-1 font-bold text-white text-left">ชื่อ <div class="inline text-red-500"> * </div> : </div>
@@ -377,13 +381,14 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </div>
                 </td>
-                <td class="py-4 px-6 text-right">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right">
                     <form action="{{route('member.delete',$rows->member_id)}}" class="nav-link dropdown" method="POST">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="font-medium text-gray-500 hover:text-blue-500"
+                        <button type="submit" class="font-bold text-gray-500 hover:text-blue-500"
                             onclick="return confirm('คุณต้องการลบสมาชิกที่ชื่อ {{$rows->name}} {{$rows->surname}} หรือไม่?')">
                             ลบ</button>
                     </form>

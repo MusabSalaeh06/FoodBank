@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use App\Models\Donate;
-use App\Models\Member;
+use App\Models\member;
 use App\Models\Product;
 use App\Models\Product_type;
 use Illuminate\Http\Request;
@@ -12,18 +12,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class MemberController extends Controller
+class memberController extends Controller
 {
+    public function index()
+    {
+        $giver = member::where('type', 'giver')->get()->count();
+        $reciever = member::where('type', 'reciever')->get()->count();
+        $sender = member::where('type', 'sender')->get()->count();
+        $product = product::get()->count();
+        $product_type = Product_type::get()->count();
+        $donate = Donate::get()->count();
+        return view('auth.index', compact(['giver', 'reciever', 'sender', 'product', 'product_type', 'donate',]));
+    }
     public function my_profile()
     {
-        $profile = Member::find(Auth::user()->member_id);
+        $profile = member::find(Auth::user()->member_id);
         return view('profile', compact('profile'));
     }
     public function Dashboard()
     {
-        $giver = Member::where('type', 'giver')->get()->count();
-        $reciever = Member::where('type', 'reciever')->get()->count();
-        $sender = Member::where('type', 'sender')->get()->count();
+        $giver = member::where('type', 'giver')->get()->count();
+        $reciever = member::where('type', 'reciever')->get()->count();
+        $sender = member::where('type', 'sender')->get()->count();
         //$product = product::where('status', null)->get()->count();
         $product = product::get()->count();
         $product_type = Product_type::get()->count();
@@ -40,34 +50,47 @@ class MemberController extends Controller
     }
     public function giver_show()
     {
-        $giver = Member::where('type', 'giver')->orderByRaw('member_id DESC')->get();
-        $co_giver = Member::where('type', 'giver')->orderByRaw('member_id DESC')->get()->count();
+        $giver = member::where('type', 'giver')->orderByRaw('member_id DESC')->get();
+        $co_giver = member::where('type', 'giver')->orderByRaw('member_id DESC')->get()->count();
         return view('Giver', compact(['giver','co_giver']));
     }
     public function reciever_show()
     {
-        $reciever = Member::where('type', 'reciever')->orderByRaw('member_id DESC')->get();
-        $co_reciever = Member::where('type', 'reciever')->orderByRaw('member_id DESC')->get()->count();
+        $reciever = member::where('type', 'reciever')->orderByRaw('member_id DESC')->get();
+        $co_reciever = member::where('type', 'reciever')->orderByRaw('member_id DESC')->get()->count();
         return view('Reciever', compact(['reciever','co_reciever']));
     }
     public function sender_show()
     {
-        $sender = Member::where('type', 'sender')->orderByRaw('member_id DESC')->get();
-        $co_sender = Member::where('type', 'sender')->orderByRaw('member_id DESC')->get()->count();
+        $sender = member::where('type', 'sender')->orderByRaw('member_id DESC')->get();
+        $co_sender = member::where('type', 'sender')->orderByRaw('member_id DESC')->get()->count();
         return view('Sender', compact(['sender','co_sender']));
     }
     public function my_donate()
     {
+        $prod_amount = Product::where('giver',Auth::user()->member_id)->count();
+        $prod_quantity = Product::where('giver',Auth::user()->member_id)->where('status',null)->count();
+        $prod_ant = Product::where('giver',Auth::user()->member_id)->where('status','hidden')->count();
+        $prod_cancle = Product::where('giver',Auth::user()->member_id)->where('status','ยกเลิกบริจาค')->count();
+        //dd($prod_cancle);
         $type = Product_type::all();
-        $giver = member::where('type', 'giver')->get();
-        $my_donate = Product::where('giver', Auth::user()->member_id)->get();
-        //$my_donate = Product::where('giver', Auth::user()->member_id)->where('admin', null)->where('status', null)->get();
-        return view('My_Donate', compact(['type', 'giver', 'my_donate']));
+        $co_type = Product_type::get()->count();
+        $my_donate = Product::orderByRaw('product_id DESC')->where('giver', Auth::user()->member_id)->paginate(5);
+        $co_my_donate = Product::where('giver', Auth::user()->member_id)->get()->count();
+        return view('My_Donate', compact(['type','my_donate','co_type','co_my_donate','prod_amount','prod_quantity'
+                    ,'prod_ant','prod_cancle']));
     }
     public function my_mission()
     {
-        $mission = Donate::where('sender', Auth::user()->member_id)->get();
-        return view('My_Mission', compact(['mission']));
+        $mission = Donate::where('sender', Auth::user()->member_id)->where('status', "รอการตอบรับ")->get()->count();
+        $mission_cancle = Donate::where('sender', Auth::user()->member_id)->where('status', "ยกเลิกภารกิจ")->get()->count();
+        $mission_submit = Donate::where('sender', Auth::user()->member_id)->where('status', "ตอบรับ")->get()->count();
+        $mission_reject = Donate::where('sender', Auth::user()->member_id)->where('status', "ปฏิเสธ")->get()->count();
+        $mission_complete = Donate::where('sender', Auth::user()->member_id)->where('status', "ส่งสำเร็จ")->get()->count();
+        $mission_fail = Donate::where('sender', Auth::user()->member_id)->where('status', "ส่งคืนสินค้า")->get()->count();
+        $my_mission = Donate::orderByRaw('id DESC')->where('sender', Auth::user()->member_id)->paginate(5);
+		$co_my_mission = Donate::where('sender', Auth::user()->member_id)->get()->count();
+        return view('My_Mission', compact(['mission', 'mission_complete', 'mission_fail', 'mission_cancle', 'mission_reject', 'mission_submit','my_mission','co_my_mission']));
     }
     public function mission_detail($id)
     {
@@ -81,7 +104,11 @@ class MemberController extends Controller
             "name.required" => "กรุณาส่งค่า name(ชื่อ) มาด้วยน่ะครับ",
             "surname.required" => "กรุณาส่งค่า surname(นามสกุล) มาด้วยน่ะครับ",
             "card_id.required" => "กรุณาส่งค่า card_id(บัจรประจำตัวประชาชน) มาด้วยน่ะครับ",
+            "card_id.max" => "เลขบัตรประจำตัวประชาชนมากกว่า 13 หลัก",
+            "card_id.min" => "เลขบัตรประจำตัวประชาชนน้อยกว่า 13 หลัก",
             "tel.required" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์) มาด้วยน่ะครับ",
+            "tel.max" => "เบอร์โทรศัพท์มากกว่า 10 หลัก",
+            "tel.min" => "เบอร์โทรศัพท์น้อยกว่า 10 หลัก",
             "tel.unique" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์)ใหม่ เนื่องจากมีผู้ใช้เบอร์โทรศัพท์นี้เเล้ว",
             "type.required" => "กรุณาส่งค่า type(ประเภทสินค้า) มาด้วยน่ะครับ",
         ];
@@ -89,8 +116,8 @@ class MemberController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'surname' => 'required',
-            'card_id' => 'required',
-            'tel' => 'required|unique:members',
+            'card_id' => 'required|max:13|min:13',
+            'tel' => 'required|unique:members|max:10|min:10',
             'type' => 'required',
         ], $customMessage);
 
@@ -130,34 +157,36 @@ class MemberController extends Controller
     }
     public function update(Request $request, $member_id)
     {
-            $member = Member::find($member_id);
+            $member = member::find($member_id);
             if ($member->tel == $request->input('tel')) {
                 $member->tel = '';
                 $member->save();
             }
 
-        $customMessage = [
-            "name.required" => "กรุณาส่งค่า name(ชื่อ) มาด้วยน่ะครับ",
-            "surname.required" => "กรุณาส่งค่า surname(นามสกุล) มาด้วยน่ะครับ",
-            "card_id.required" => "กรุณาส่งค่า card_id(บัจรประจำตัวประชาชน) มาด้วยน่ะครับ",
-            "tel.required" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์) มาด้วยน่ะครับ",
-            "tel.unique" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์)ใหม่ เนื่องจากมีผู้ใช้เบอร์โทรศัพท์นี้เเล้ว",
-            "type.required" => "กรุณาส่งค่า type(ประเภทสินค้า) มาด้วยน่ะครับ",
-            "password.required" => "กรุณาส่งค่า password(รหัสผ่าน) มาด้วยน่ะครับ",
-            "password.same" => "การยืนยันรหัสผ่านไม่ถูกต้อง",
-        ];
+            $customMessage = [
+                "name.required" => "กรุณาส่งค่า name(ชื่อ) มาด้วยน่ะครับ",
+                "surname.required" => "กรุณาส่งค่า surname(นามสกุล) มาด้วยน่ะครับ",
+                "card_id.required" => "กรุณาส่งค่า card_id(บัจรประจำตัวประชาชน) มาด้วยน่ะครับ",
+                "card_id.max" => "เลขบัตรประจำตัวประชาชนมากกว่า 13 หลัก",
+                "card_id.min" => "เลขบัตรประจำตัวประชาชนน้อยกว่า 13 หลัก",
+                "tel.required" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์) มาด้วยน่ะครับ",
+                "tel.max" => "เบอร์โทรศัพท์มากกว่า 10 หลัก",
+                "tel.min" => "เบอร์โทรศัพท์น้อยกว่า 10 หลัก",
+                "tel.unique" => "กรุณาส่งค่า tel(เบอร์โทรศัพท์)ใหม่ เนื่องจากมีผู้ใช้เบอร์โทรศัพท์นี้เเล้ว",
+                "type.required" => "กรุณาส่งค่า type(ประเภทสินค้า) มาด้วยน่ะครับ",
+            ];
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'surname' => 'required',
-            'card_id' => 'required',
-            'tel' => 'required|unique:members',
+            'card_id' => 'required|max:13|min:13',
+            'tel' => 'required|unique:members|max:10|min:10',
             'type' => 'required',
             'password' => 'required|same:password_confirmation',
         ], $customMessage);
 
         if ($validator->fails()) {
-            $member = Member::find($member_id);
+            $member = member::find($member_id);
             if ($member->tel == '') {
                 $member->tel = $request->input('tel');
                 $member->save();

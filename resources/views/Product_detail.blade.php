@@ -14,62 +14,67 @@
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only">รูปภาพ</span>
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     วันที่เพิ่ม
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ประเภทสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                  ปริมาณ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                  คงเหลือ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ผู้บริจาค
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     เจ้าหน้าที่
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
-                    <img class="m-2" src="/storage/product/product_image_assets/{{$product->product_image}}" width="100px"
-                        height="100px">
+                @if ($product->product_image == null)
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                 </td>
-                <td class="py-4 px-6">
+                @else
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
+                    <img class="m-2" src="/storage/product/product_image_assets/{{$product->product_image}}" width="100px" height="100px">
+                    {{-- <img class="m-2" src="{{asset($product->product_image)}}" width="100px" height="100px"> --}}
+                </td>
+                @endif
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{\Carbon\Carbon::parse($product->created_at)->format('d/m/')}}{{\Carbon\Carbon::parse($product->created_at)->format('Y')+543}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->types->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->amount}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->quantity}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->givers->name}} {{$product->givers->surname}}
                 </td>
                 @if ($product->admin == null)
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     เพิ่มโดยผู้บริจาค
                 </td>
                 @else
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$product->admins->name}} {{$product->admins->surname}}
                 </td>
                 @endif
@@ -92,22 +97,22 @@ shadow-md focus:outline-none focus:shadow-outline-purple" style="background-colo
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     วันที่บริจาค
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ปริมาณที่บริจาค
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อผู้รับ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ที่อยู่ผู้รับ
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     เจ้าหน้าที่
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only" width="5%">ดูรายละเอียด</span>
                 </th>
             </tr>
@@ -115,16 +120,16 @@ shadow-md focus:outline-none focus:shadow-outline-purple" style="background-colo
         <tbody>
             @foreach ($basket as $i=>$rows)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{\Carbon\Carbon::parse($rows->created_at)->format('d/m/')}}{{\Carbon\Carbon::parse($product->created_at)->format('Y')+543}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->quantity}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->donates->recievers->name}} {{$rows->donates->recievers->surname}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     @if ($rows->donates->recievers->sub_district == null)
                         ไม่ระบุ                        
                     @else
@@ -135,17 +140,17 @@ shadow-md focus:outline-none focus:shadow-outline-purple" style="background-colo
                     @endif
                 </td>
                 @if ($rows->admin == null)
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     เพิ่มโดยผู้บริจาค
                 </td>
                 @else
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->admins->name}} {{$rows->admins->surname}}
                 </td>
                 @endif
-                <td class="py-4 px-6 text-right">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white text-right">
                     <a href="{{route('mission.detail',$rows->donate_id)}}"
-                        class="font-medium text-gray-500 hover:text-blue-500">
+                        class="font-bold text-gray-500 hover:text-blue-500">
                         ดูรายละเอียด
                     </a>
                 </td>

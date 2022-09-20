@@ -37,16 +37,16 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
     <table class="w-full text-xl text-left text-gray-500 dark:text-gray-400">
         <thead class="text-2xl text-white uppercase bg-gray-400 dark:bg-gray-700 dark:text-gray-400" style="background-color: #E9C46A">
             <tr>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     <span class="sr-only">รูปภาพ</span>
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ชื่อสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ประเภทสินค้า
                 </th>
-                <th scope="col" class="py-3 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-white whitespace-nowrap dark:text-white">
                     ปริมาณ
                 </th>
             </tr>
@@ -54,17 +54,22 @@ bg-gray-400 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
         <tbody>
             @foreach ($Basket as $i=>$rows)
             <tr class="bg-white text-2xl border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="py-4 px-6">
-                    <img class="m-2" src="/storage/product/product_image_assets/{{$rows->product->product_image}}" width="100px" height="100px">
-                    {{-- <img class="m-2" src="{{asset($rows->product_image)}}" width="100px" height="100px"> --}}
+                @if ($rows->product->product_image == null)
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                 </td>
-                <td class="py-4 px-6">
+                @else
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
+                    <img class="m-2" src="/storage/product/product_image_assets/{{$rows->product->product_image}}" width="100px" height="100px">
+                    {{-- <img class="m-2" src="{{asset($rows->product->product_image)}}" width="100px" height="100px"> --}}
+                </td>
+                @endif
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->product->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->product->types->name}}
                 </td>
-                <td class="py-4 px-6">
+                <td scope="row" class="py-4 px-6 font-bold text-gray-700 whitespace-nowrap dark:text-white">
                     {{$rows->quantity}} {{$rows->product->unit}}
                 </td> 
                 </tr>

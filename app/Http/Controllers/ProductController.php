@@ -37,16 +37,32 @@ class ProductController extends Controller
     }
     public function product_types($type)
     {
+        $co_giver = Member::where('type', 'giver')->get()->count();
+        $co_reciever = Member::where('type', 'reciever')->get()->count();
+        $co_sender = Member::where('type', 'sender')->get()->count();
+        //$product = product::where('status', null)->get()->count();
+        $co_product = product::get()->count();
+        $co_product_type = Product_type::get()->count();
+        $co_donate = Donate::get()->count();
         $product_type = Product_type::all();
         $productT = Product_type::find($type);
         $product = product::where('status', null)->where('type', $type)->get();
-        return view('Product_types', compact(['product_type', 'productT', 'product']));
+        return view('Product_types', compact(['product_type', 'productT','product'
+                ,'co_giver','co_reciever','co_sender','co_product','co_product_type','co_donate']));
     }
     public function products()
     {
+        $co_giver = Member::where('type', 'giver')->get()->count();
+        $co_reciever = Member::where('type', 'reciever')->get()->count();
+        $co_sender = Member::where('type', 'sender')->get()->count();
+        //$product = product::where('status', null)->get()->count();
+        $co_product = product::get()->count();
+        $co_product_type = Product_type::get()->count();
+        $co_donate = Donate::get()->count();
         $product_type = Product_type::all();
         $product = product::where('status', null)->get();
-        return view('Products', compact(['product_type', 'product']));
+        return view('Products', compact(['product_type', 'product'
+        ,'co_giver','co_reciever','co_sender','co_product','co_product_type','co_donate']));
     }
     public function basket_show()
     {

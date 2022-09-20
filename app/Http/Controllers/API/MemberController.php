@@ -60,7 +60,7 @@ class MemberController extends Controller
     public function mission_all(Request $request)
     {
         $sender = $request->member_id;
-        $mission_all = Donate::where('sender', $sender)->get();
+        $mission_all = Donate::orderByRaw('id DESC')->where('sender', $sender)->get();
         return response()->json(
             [
                 'status' => true,
@@ -71,7 +71,7 @@ class MemberController extends Controller
     public function new_mission(Request $request)
     {
         $sender = $request->member_id;
-        $new_mission = Donate::where('sender', "$sender")->where('status', "รอการตอบรับ")->get();
+        $new_mission = Donate::orderByRaw('id DESC')->where('sender', "$sender")->where('status', "รอการตอบรับ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -82,7 +82,7 @@ class MemberController extends Controller
     public function mission_cancle(Request $request)
     {
         $sender = $request->member_id;
-        $mission_cancle = Donate::where('sender', $sender)->where('status', "ยกเลิกภารกิจ")->get();
+        $mission_cancle = Donate::orderByRaw('id DESC')->where('sender', $sender)->where('status', "ยกเลิกภารกิจ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -93,7 +93,7 @@ class MemberController extends Controller
     public function mission_submit(Request $request)
     {
         $sender = $request->member_id;
-        $mission_submit = Donate::where('sender', $sender)->where('status', "ตอบรับ")->get();
+        $mission_submit = Donate::orderByRaw('id DESC')->where('sender', $sender)->where('status', "ตอบรับ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -104,7 +104,7 @@ class MemberController extends Controller
     public function mission_reject(Request $request)
     {
         $sender = $request->member_id;
-        $mission_reject = Donate::where('sender', $sender)->where('status', "ปฏิเสธ")->get();
+        $mission_reject = Donate::orderByRaw('id DESC')->where('sender', $sender)->where('status', "ปฏิเสธ")->get();
         return response()->json(
             [
                 'status' => true,
@@ -115,7 +115,7 @@ class MemberController extends Controller
     public function mission_fail(Request $request)
     {
         $sender = $request->member_id;
-        $mission_fail = Donate::where('sender', $sender)->where('status', "ส่งคืนสินค้า")->get();
+        $mission_fail = Donate::orderByRaw('id DESC')->where('sender', $sender)->where('status', "ส่งคืนสินค้า")->get();
         return response()->json(
             [
                 'status' => true,
@@ -126,7 +126,7 @@ class MemberController extends Controller
     public function mission_complete(Request $request)
     {
         $sender = $request->member_id;
-        $mission_complete = Donate::where('sender', $sender)->where('status', "ส่งสำเร็จ")->get();
+        $mission_complete = Donate::orderByRaw('id DESC')->where('sender', $sender)->where('status', "ส่งสำเร็จ")->get();
         return response()->json(
             [
                 'status' => true,
