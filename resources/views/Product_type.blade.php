@@ -197,8 +197,8 @@
                         ลบ</button>
                     </form>
                 </td>
-                @endforeach
             </tr>
+                @endforeach
         </tbody>
     </table>
 </div>
